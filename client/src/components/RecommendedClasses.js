@@ -10,7 +10,7 @@ const RecommendedClasses = () => {
         const fetchRecommendations = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('http://localhost:5000/api/users/recommendations', {
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/recommendations`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

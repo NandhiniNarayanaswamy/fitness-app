@@ -16,7 +16,7 @@ const Home = () => {
     useEffect(() => {
         const fetchTrainers = async () => {
             try {
-                const res = await axios.get('/api/trainer-profiles/all'); // your backend API route
+                const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/trainer-profiles/all`); // your backend API route
                 setTrainers(res.data.profiles.slice(0, 4)); // show only 4 trainers
             } catch (err) {
                 console.error('Error fetching trainers:', err);

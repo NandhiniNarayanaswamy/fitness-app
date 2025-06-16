@@ -20,7 +20,7 @@ export default function UserRegister() {
         }
 
         try {
-            await axios.post('http://localhost:5000/api/users/register', form);
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/register`, form);
             alert('User Registered');
             // Optionally clear form or redirect here
             setForm({ name: '', email: '', password: '' });

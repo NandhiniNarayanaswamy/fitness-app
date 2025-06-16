@@ -4,15 +4,12 @@ import '../../styles/userTrainerList.css';
 import "../../styles/trainerProfileForm.css";
 
 
-
-
-
 const UserTrainerList = () => {
     const [trainers, setTrainers] = useState([]);
 
     useEffect(() => {
         const fetchTrainers = async () => {
-            const res = await axios.get('http://localhost:5000/api/trainer-profiles/all');
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/trainer-profiles/all`);
             setTrainers(res.data.profiles);
         };
         fetchTrainers();
@@ -26,7 +23,7 @@ const UserTrainerList = () => {
                 <div className="trainer-grid">
                     {trainers.map((trainer, index) => (
                         <div key={index} className="trainer-card">
-                            <img src={`http://localhost:5000${trainer.photo}`} alt={trainer.name} />
+                            <img src={`${process.env.REACT_APP_BACKEND_URL}${trainer.photo}`} alt={trainer.name} />
 
                             <h3>{trainer.name}</h3>
                             <p><strong>Qualifications:</strong> {trainer.qualifications}</p>

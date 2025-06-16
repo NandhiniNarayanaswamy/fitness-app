@@ -19,7 +19,7 @@ export default function UserLogin() {
         }
 
         try {
-            const res = await axios.post('http://localhost:5000/api/users/login', form);
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/login`, form);
 
             const { token, email, userId } = res.data; // ✅ extract userId from response
 

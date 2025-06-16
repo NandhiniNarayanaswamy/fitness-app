@@ -30,13 +30,13 @@ const TrainerAvailabilityForm = () => {
         }
 
         try {
-            await axios.post('http://localhost:5000/api/availability/add', form, {
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/availability/add`, form, {
                 headers: { Authorization: token }
             });
 
             setForm({ type: '', duration: '', timeSlot: '', date: '', price: '' });
 
-            const res = await axios.get('http://localhost:5000/api/availability/trainer', {
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/availability/trainer`, {
                 headers: { Authorization: token }
             });
 
@@ -48,12 +48,12 @@ const TrainerAvailabilityForm = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/availability/${id}`, {
+            await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/availability/${id}`, {
 
                 headers: { Authorization: token }
             });
 
-            const res = await axios.get('http://localhost:5000/api/availability/trainer', {
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/availability/trainer`, {
                 headers: { Authorization: token }
             });
 
@@ -66,7 +66,7 @@ const TrainerAvailabilityForm = () => {
     useEffect(() => {
         const fetchAvailabilities = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/availability/trainer', {
+                const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/availability/trainer`, {
                     headers: { Authorization: token }
                 });
                 setAvailabilities(res.data);

@@ -11,7 +11,7 @@ export default function TrainerRegister() {
     const handleSubmit = async e => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/trainers/register', form);
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/trainers/register`, form);
             alert('Registered Successfully');
         } catch (err) {
             alert('Error');

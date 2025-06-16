@@ -11,7 +11,7 @@ const FeedbackForm = ({ bookingId, onFeedbackSubmitted }) => {
         e.preventDefault();
         try {
             await axios.post(
-                'http://localhost:5000/api/feedback',
+                `${process.env.REACT_APP_BACKEND_URL}/api/feedback`,
                 { bookingId, rating, comment },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

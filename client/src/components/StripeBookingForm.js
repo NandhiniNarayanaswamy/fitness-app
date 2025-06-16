@@ -23,7 +23,7 @@ const StripeBookingForm = ({ slot, userEmail, onClose }) => {
         try {
             // ✅ Step 1: Create Payment Intent on backend
             const { data } = await axios.post(
-                'http://localhost:5000/api/bookings/payment/create-payment-intent',
+                `${process.env.REACT_APP_BACKEND_URL}/api/bookings/payment/create-payment-intent`,
                 {
                     amount: slot.price,
                     userEmail,
@@ -64,7 +64,7 @@ const StripeBookingForm = ({ slot, userEmail, onClose }) => {
                 throw new Error('User ID not found. Please login again.');
             }
 
-            await axios.post('http://localhost:5000/api/bookings/payment/confirm-booking', {
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/payment/confirm-booking`, {
                 userId,
                 userEmail,
                 trainerId: slot.trainer?._id,

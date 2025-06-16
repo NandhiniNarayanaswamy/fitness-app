@@ -21,9 +21,11 @@ const LoginRegister = () => {
         e.preventDefault();
         const { role, name, email, password } = formData;
 
+        const baseURL = process.env.REACT_APP_BACKEND_URL;
         const endpoint = isRegister
-            ? (role === 'trainer' ? '/api/trainers/register' : '/api/users/register')
-            : (role === 'trainer' ? '/api/trainers/login' : '/api/users/login');
+            ? (role === 'trainer' ? `${baseURL}/api/trainers/register` : `${baseURL}/api/users/register`)
+            : (role === 'trainer' ? `${baseURL}/api/trainers/login` : `${baseURL}/api/users/login`);
+
 
         const payload = isRegister ? { name, email, password } : { email, password };
 

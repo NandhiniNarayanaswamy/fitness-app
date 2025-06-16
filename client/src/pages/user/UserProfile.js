@@ -16,7 +16,7 @@ const UserProfile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/users/me', {
+                const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/me`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const { name, fitnessGoals, about } = res.data;
@@ -45,7 +45,7 @@ const UserProfile = () => {
         if (photo) data.append('photo', photo);
 
         try {
-            const res = await axios.put('http://localhost:5000/api/users/profile', data, {
+            const res = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',

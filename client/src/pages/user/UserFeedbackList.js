@@ -9,7 +9,7 @@ const UserFeedbackList = () => {
 
     useEffect(() => {
         const fetchFeedbacks = async () => {
-            const res = await axios.get(`http://localhost:5000/api/feedback/user/${userEmail}`, {
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/feedback/user/${userEmail}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setFeedbacks(res.data);

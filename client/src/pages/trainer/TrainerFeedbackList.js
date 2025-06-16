@@ -10,7 +10,7 @@ const TrainerFeedbackList = () => {
     useEffect(() => {
         const fetchFeedbacks = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/feedback/trainer/${trainerId}`, {
+                const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/feedback/trainer/${trainerId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setFeedbacks(res.data);
@@ -24,7 +24,7 @@ const TrainerFeedbackList = () => {
     const handleRespond = async (id, response) => {
         try {
             await axios.put(
-                `http://localhost:5000/api/feedback/response/${id}`,
+                `${process.env.REACT_APP_BACKEND_URL}/api/feedback/response/${id}`,
                 { response },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

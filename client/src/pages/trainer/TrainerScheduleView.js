@@ -12,7 +12,7 @@ const TrainerScheduleView = () => {
 
         const fetchBookings = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/bookings/trainer/${trainerId}`);
+                const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/trainer/${trainerId}`);
                 setBookings(res.data);
             } catch (err) {
                 console.error('Failed to fetch trainer bookings:', err);

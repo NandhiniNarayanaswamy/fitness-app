@@ -20,7 +20,7 @@ const UserAvailabilityView = () => {
 
     const fetchSlots = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/availability/all');
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/availability/all`);
             setSlots(res.data);
             setFilteredSlots(res.data);
         } catch (error) {

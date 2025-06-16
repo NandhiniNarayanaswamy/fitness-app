@@ -14,7 +14,7 @@ const UserBookingManager = () => {
     useEffect(() => {
         const fetchBookings = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/bookings/user/${userEmail}`, {
+                const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/user/${userEmail}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setBookings(res.data);

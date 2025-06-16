@@ -39,7 +39,7 @@ function TrainerProfileForm() {
         }
 
         try {
-            const res = await axios.post("http://localhost:5000/api/trainer-profiles/upload", data, {
+            const res = await axios.post("${process.env.REACT_APP_BACKEND_URL}/api/trainer-profiles/upload", data, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             alert("Trainer profile uploaded successfully!");
