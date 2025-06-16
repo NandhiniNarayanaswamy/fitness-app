@@ -1,0 +1,115 @@
+/* === Navbar Wrapper === */
+.navbar {
+    position: absolute;
+    /* or 'fixed' if you want sticky navbar */
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+/* Transparent background for homepage */
+.navbar-transparent {
+    background: transparent;
+    color: white;
+}
+
+/* Solid background for other pages (you can define this in your component) */
+.navbar-solid {
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* === Logo Section === */
+.navbar-logo .logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    background: transparent;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: orangered;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* === Navigation Links === */
+.navbar-links {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    color: rgb(46, 44, 43);
+}
+
+/* === Call to Action (Login) === */
+.join-now {
+    background-color: orangered;
+    padding: 8px 16px;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.join-now:hover {
+    background-color: #ff4500;
+}
+
+/* === General Reset === */
+body,
+html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .logo-text {
+        font-size: 1.5rem;
+    }
+
+    .logo-img {
+        height: 35px;
+        width: 35px;
+    }
+}

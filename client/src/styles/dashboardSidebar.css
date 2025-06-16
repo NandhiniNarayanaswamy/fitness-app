@@ -1,0 +1,127 @@
+/* Sidebar Layout */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #000;
+    color: #fff;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    /* Ensures scroll if content overflows */
+    z-index: 1000;
+}
+
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+
+}
+
+.dashboard-main {
+    flex: 1;
+    margin-left: 250px;
+    /* reserve space for sidebar */
+    padding: 20px;
+    color: #fff;
+
+}
+
+.dashboard-page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Logo Styling */
+.logo h2 {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.logo span {
+    color: #ff4500;
+}
+
+/* Welcome Message */
+.welcome-message {
+    font-size: 15px;
+    color: #ccc;
+    margin-bottom: 30px;
+}
+
+/* Navigation */
+.nav-links {
+    flex: 1;
+}
+
+.nav-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links li {
+    margin-bottom: 5px;
+}
+
+/* Link Styling */
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 8px;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+/* Active Link Styling */
+.nav-link.active {
+    color: #ff4500;
+}
+
+/* Icons */
+.nav-link .icon {
+    margin-right: 10px;
+    color: #ff4500;
+    font-size: 18px;
+}
+
+.nav-link .label {
+    white-space: nowrap;
+}
+
+/* Logout Button Styling */
+.logout-btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 8px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    text-align: left;
+}
+
+.logout-btn:hover {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+.logout-btn .icon {
+    color: #ff4500;
+}

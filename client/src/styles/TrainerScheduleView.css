@@ -1,0 +1,60 @@
+/* Scope everything under .trainer-bookings-container */
+.trainer-bookings-container {
+    padding: 30px;
+    background-color: #0d0d0d;
+    min-height: 100vh;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.trainer-bookings-container h2 {
+    color: #ff4500;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.trainer-bookings-container .no-bookings {
+    text-align: center;
+    color: #aaa;
+    font-size: 1.1rem;
+}
+
+.trainer-bookings-container .bookings-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    justify-content: center;
+}
+
+.trainer-bookings-container .booking-card {
+    background: rgba(255, 69, 0, 0.1);
+    border: 1px solid rgba(255, 69, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px;
+    width: 320px;
+    box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
+    transition: transform 0.3s;
+}
+
+.trainer-bookings-container .booking-card:hover {
+    transform: translateY(-5px);
+}
+
+.trainer-bookings-container .booking-field {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.trainer-bookings-container .label {
+    font-weight: bold;
+    color: #ff6a00;
+}
+
+.trainer-bookings-container .value {
+    color: #f0f0f0;
+    text-align: right;
+}

@@ -1,0 +1,100 @@
+/* Container */
+.trainer-availability-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(20, 20, 20, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    border: 1px solid rgba(255, 69, 0, 0.2);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Title */
+.trainer-availability-container h2,
+.trainer-availability-container h3 {
+    text-align: center;
+    color: #ff4500;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+.trainer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.trainer-form input {
+    padding: 12px 15px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.trainer-form input::placeholder {
+    color: #bbb;
+}
+
+.trainer-form input:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #ff4500;
+}
+
+/* Button */
+.trainer-form button {
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background-color: #ff4500;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.trainer-form button:hover {
+    background-color: #e03d00;
+}
+
+/* Slots List */
+.trainer-slot-list {
+    margin-top: 30px;
+    list-style: none;
+    padding: 0;
+}
+
+.trainer-slot-list li {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #eee;
+}
+
+/* Delete Button */
+.trainer-slot-list button {
+    background-color: transparent;
+    border: 1px solid #ff4500;
+    color: #ff4500;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.trainer-slot-list button:hover {
+    background-color: #ff4500;
+    color: #000;
+}

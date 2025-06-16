@@ -1,0 +1,68 @@
+.recommendation-container {
+    padding: 2rem;
+    color: #fff;
+    background-color: #1c1c1c;
+    /* light black */
+    border-radius: 16px;
+    margin: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.recommendation-container h3 {
+    font-size: 2rem;
+    color: #ff5722;
+    /* red-orange */
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.recommendation-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.recommendation-card {
+    background: #2a2a2a;
+    /* dark greyish-black card */
+    border: 1px solid #ff7043;
+    /* red-orange border */
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4);
+}
+
+.recommendation-card h4 {
+    color: #ff7043;
+    /* red-orange */
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+}
+
+.recommendation-card p {
+    margin: 0.4rem 0;
+    font-size: 0.95rem;
+    color: #ddd;
+}
+
+.checkout-button {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    background-color: #ff5722;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.checkout-button:hover {
+    background-color: #e64a19;
+}

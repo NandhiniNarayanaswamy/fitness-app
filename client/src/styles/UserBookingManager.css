@@ -1,0 +1,72 @@
+.user-booking-manager {
+    margin: 40px auto;
+    padding: 30px;
+    max-width: 900px;
+    background-color: #2e2e2e;
+    /* Solid light black (dark gray) */
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+
+}
+
+.user-booking-manager h2 {
+    color: #ff3c00;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #ff3c00;
+    padding-bottom: 0.5rem;
+}
+
+.booking-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 60, 0, 0.2);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 20px rgba(255, 60, 0, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.booking-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 30px rgba(55, 60, 0, 0.3);
+}
+
+.booking-card p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #e0e0e0;
+}
+
+.booking-card strong {
+    color: #ff7733;
+}
+
+.booking-card button {
+    background-color: #ff3c00;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 60, 0, 0.2);
+}
+
+.booking-card button:hover {
+    background-color: #e63a00;
+    box-shadow: 0 4px 12px rgba(255, 60, 0, 0.4);
+}
+
+p.no-bookings {
+    font-size: 1.2rem;
+    color: #bbb;
+    margin-top: 2rem;
+    text-align: center;
+}

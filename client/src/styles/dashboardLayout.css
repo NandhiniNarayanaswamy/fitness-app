@@ -1,0 +1,47 @@
+/* Dashboard Layout Wrapper */
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+
+    /* Pure black background */
+}
+
+
+
+
+/* Main Dashboard Content */
+.dashboard-main {
+    margin-left: 250px;
+    padding: 2rem;
+    width: calc(100% - 250px);
+
+    /* unified light black background */
+    color: #fff;
+}
+
+.class-card,
+.class-container,
+.booking-container {
+    background-color: #1a1a1a;
+    /* Match main background */
+    color: #fff;
+    border: 1px solid rgba(255, 69, 0, 0.2);
+    /* optional red-orange border */
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.dashboard-main {
+    flex: 1;
+    padding: 30px;
+
+    color: #fff;
+    min-height: 100vh;
+}
+
+.dashboard-page-title {
+    font-size: 28px;
+    color: #ff4500;
+    margin-bottom: 20px;
+}

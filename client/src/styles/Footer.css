@@ -1,0 +1,31 @@
+.footer {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    /* Dark black glassy */
+    color: white;
+    padding: 20px 40px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 -4px 15px rgba(255, 69, 0, 0.2);
+    /* Orange glow */
+    font-family: 'Segoe UI', sans-serif;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-content p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.footer-links a {
+    color: orangered;
+    text-decoration: none;
+    margin: 0 8px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: white;
+}

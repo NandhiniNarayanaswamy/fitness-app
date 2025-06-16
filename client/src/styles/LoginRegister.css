@@ -1,0 +1,147 @@
+/* styles/LoginRegister.css */
+
+.auth-container {
+    min-height: 100vh;
+    padding-top: 100px;
+    /* Push content below navbar */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: url('../assets/other.webp') no-repeat center center/cover fixed;
+    backdrop-filter: blur(6px);
+    padding-bottom: 50px;
+}
+
+.auth-container form {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 69, 0, 0.4);
+    box-shadow: 0 8px 32px rgba(255, 69, 0, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    backdrop-filter: blur(0);
+    animation: fadeIn 0.6s ease-in;
+}
+
+.auth-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #ff4500;
+}
+
+.auth-container label {
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #ffa07a;
+}
+
+.auth-container input,
+.auth-container select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.3s ease, border 0.3s ease;
+}
+
+/* Placeholder style */
+.auth-container input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Select specific styling */
+.auth-container select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg fill='white' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 14px 14px;
+    cursor: pointer;
+}
+
+/* Focus effect on inputs and select */
+.auth-container input:focus,
+.auth-container select:focus {
+    background: rgba(255, 69, 0, 0.15);
+    border: 1.5px solid #ff4500;
+    outline: none;
+}
+
+/* Button styling */
+.auth-container button {
+    padding: 10px;
+    background: #ff4500;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.auth-container button:hover {
+    background: #ff5722;
+}
+
+/* Toggle link */
+.toggle-link {
+    margin-top: 15px;
+    text-align: center;
+    cursor: pointer;
+    color: #ff6347;
+    text-decoration: underline;
+    font-size: 0.95rem;
+}
+
+/* Options background and text */
+.auth-container select option {
+    background-color: #1a1a1a;
+    /* dark background */
+    color: #ff4500;
+    /* red-orange text */
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for options (works best in Firefox) */
+.auth-container select option:hover {
+    background-color: #ff4500;
+    /* red-orange background */
+    color: #1a1a1a;
+    /* dark text */
+}
+
+/* Selected option style */
+.auth-container select option:checked {
+    background-color: #ff5722;
+    color: white;
+}
+
+/* Dropdown arrow color fix for IE */
+.auth-container select::-ms-expand {
+    display: none;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

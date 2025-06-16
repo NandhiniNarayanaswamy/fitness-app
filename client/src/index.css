@@ -1,0 +1,23 @@
+/* 1. Prevent scroll on entire page */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* ❗ This disables scrolling on the entire page */
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 2. Still hide scrollbar for safety */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #000;
+    /* force black globally */
+    color: #fff;
+}

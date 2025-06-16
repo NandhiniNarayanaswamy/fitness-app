@@ -1,0 +1,96 @@
+/* Main Container */
+.trainer-profile-form {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 40px 30px;
+    background: rgba(20, 20, 20, 0.4);
+    /* lite black background */
+    backdrop-filter: blur(10px);
+    /* Glassmorphism effect */
+    border-radius: 20px;
+    border: 1px solid rgba(255, 69, 0, 0.2);
+    /* red-orange border */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Title */
+.trainer-profile-form h2 {
+    text-align: center;
+    color: #ff4500;
+    /* red-orange */
+    margin-bottom: 30px;
+}
+
+/* Form Styles */
+.trainer-profile-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Inputs */
+.trainer-profile-form input,
+.trainer-profile-form textarea {
+    padding: 12px 15px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+.trainer-profile-form input::placeholder,
+.trainer-profile-form textarea::placeholder {
+    color: #ccc;
+}
+
+.trainer-profile-form input:focus,
+.trainer-profile-form textarea:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #ff4500;
+}
+
+/* Textarea height */
+.trainer-profile-form textarea {
+    resize: none;
+    height: 100px;
+}
+
+/* Submit Button */
+.trainer-profile-form button {
+    padding: 12px;
+    background-color: #ff4500;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.trainer-profile-form button:hover {
+    background-color: #e03d00;
+}
+
+/* File Input */
+.trainer-profile-form input[type="file"] {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    cursor: pointer;
+}
+
+/* Optional Footer tweak */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.dashboard-container>.trainer-profile-form {
+    flex: 1;
+}

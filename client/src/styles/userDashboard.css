@@ -1,0 +1,22 @@
+.user-dashboard-container {
+    padding: 2rem;
+    color: #fff;
+}
+
+.user-dashboard-header h2 {
+    font-size: 28px;
+    color: #ff7043;
+    /* light red-orange */
+    margin-bottom: 0.2rem;
+}
+
+.user-dashboard-header p {
+    font-size: 16px;
+    color: #ccc;
+}
+
+.user-dashboard-content {
+    margin-top: 2rem;
+    font-size: 15px;
+    color: #eee;
+}

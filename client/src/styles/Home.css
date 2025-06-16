@@ -1,0 +1,484 @@
+/* Hide scrollbar in WebKit browsers */
+/* Hide scrollbar in WebKit browsers */
+body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+body {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE 10+ */
+}
+
+
+.home-container {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #000;
+    color: white;
+}
+
+/* Hero Section */
+.hero-section {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: white;
+    text-align: center;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.learn-more-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: orange;
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.hero-overlay {
+    background: transparent;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-overlay h1 {
+    font-size: 3rem;
+    color: rgb(243, 235, 233);
+}
+
+.hero-overlay p {
+    font-size: 1.5rem;
+    color: #e6431b;
+    margin-top: 10px;
+}
+
+
+/* Section Styling */
+.section {
+    padding: 60px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.section-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-between;
+    width: 90%;
+    gap: 40px;
+}
+
+.text-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.text-content h2 {
+    color: orangered;
+    margin-bottom: 15px;
+}
+
+.text-content p,
+.text-content ul {
+    color: #ccc;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.text-content ul li {
+    margin-bottom: 8px;
+}
+
+/* About Section */
+.about-section {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 80px;
+    padding-right: 40px;
+}
+
+.about-section .text-content {
+    max-width: 600px;
+    color: white;
+    text-align: left;
+}
+
+.about-section .text-content h2 {
+    color: orangered;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.about-section .text-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #ddd;
+}
+
+.about-section button {
+    background: transparent;
+    border: 2px solid orangered;
+    color: orangered;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+.about-section button:hover {
+    background: orangered;
+    color: white;
+}
+
+/* Buttons */
+button {
+    margin-top: 15px;
+    background: transparent;
+    border: 2px solid orangered;
+    color: orangered;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: 600;
+}
+
+button:hover {
+    background: orangered;
+    color: white;
+}
+
+/* Why Choose Us Section */
+.why-section {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: white;
+}
+
+.why-overlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8%;
+}
+
+.why-content {
+    max-width: 500px;
+    background: rgba(255, 69, 0, 0.1);
+    border-left: 5px solid #ff4500;
+    backdrop-filter: blur(5px);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.why-text h2 {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    color: #ff4500;
+}
+
+.why-text ul {
+    list-style: none;
+    padding: 0;
+    font-size: 1.2rem;
+    line-height: 2;
+}
+
+.why-text ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.why-text ul li span {
+    font-size: 1.5rem;
+    color: #ff6347;
+}
+
+/* Trainers Section */
+/* Our Trainers Section */
+.trainers-section {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 60px;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-sizing: border-box;
+}
+
+/* Ensure overlay content is visible over image */
+.trainers-overlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 2;
+    background: transparent;
+    position: relative;
+}
+
+.trainers-overlay h2 {
+    color: #fff;
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Horizontal scrollable card list */
+.trainers-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 30px;
+    padding: 20px 0;
+    width: 100%;
+    scroll-behavior: smooth;
+}
+
+.trainers-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.trainers-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+/* Trainer Card Styling */
+.trainer-card {
+    min-width: 240px;
+    background: rgba(255, 255, 255, 0.12);
+    /* subtle transparency */
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    flex-shrink: 0;
+    color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.trainer-card:hover {
+    transform: scale(1.06);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+.trainer-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.trainer-photo:hover {
+    transform: scale(1.1);
+}
+
+.trainer-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.trainer-card p {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+.trainer-card button {
+    background: #ff5722;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.trainer-card button:hover {
+    background: #e64a19;
+}
+
+/* Card animation when entering */
+@keyframes fadeUp {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: #000;
+    color: #fff;
+    padding: 60px 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-content {
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+}
+
+.contact-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #ff5722;
+}
+
+.contact-content p {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.contact-details {
+    margin: 30px 0;
+    font-size: 1rem;
+    text-align: left;
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #ff5722;
+    box-shadow: 0 0 10px rgba(255, 87, 34, 0.2);
+}
+
+.contact-details p {
+    margin: 10px 0;
+    color: #eee;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #1c1c1c;
+    color: #fff;
+    resize: none;
+    outline: none;
+    border: 1px solid #333;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: #aaa;
+}
+
+.contact-form button {
+    padding: 12px;
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: #e64a19;
+}
+
+/* Alternating backgrounds */
+.section:nth-child(odd) {
+    background-color: #111;
+}
+
+.section:nth-child(even) {
+    background-color: #000;
+}
+
+.trainers-grid::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.trainers-grid {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}

@@ -1,0 +1,41 @@
+.profile-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(30, 30, 30, 0.6);
+    /* lite black with glassmorphism */
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(255, 87, 34, 0.2);
+    /* red-orange glow */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #f0f0f0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.profile-container h2 {
+    text-align: center;
+    color: #ff5722;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #ff5722;
+    padding-bottom: 0.5rem;
+    font-size: 2rem;
+}
+
+.profile-container p {
+    background: rgba(40, 40, 40, 0.5);
+    /* slightly darker block */
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin: 1rem 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.08);
+    border-left: 5px solid #ff5722;
+}
+
+.profile-container p strong {
+    color: #ff8a50;
+    margin-right: 5px;
+}
