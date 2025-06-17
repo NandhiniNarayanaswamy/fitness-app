@@ -21,7 +21,7 @@ const upload = multer({ storage });
 router.post('/upload', upload.single('photo'), async (req, res) => {
     try {
         const { name, qualifications, expertise, specialization, message, email } = req.body;
-        const photo = req.file ? req.file.path : ''; // Cloudinary returns secure URL
+        const photo = req.file?.secure_url || req.file?.path || ''; // ✅ Corrected here
 
         const newProfile = new TrainerProfile({
             name,
@@ -35,9 +35,10 @@ router.post('/upload', upload.single('photo'), async (req, res) => {
 
         await newProfile.save();
 
+        console.log("New trainer profile created:", newProfile); // Optional
         res.status(201).json({ success: true, profile: newProfile });
     } catch (error) {
-        console.error(error);
+        console.error("Error uploading trainer profile:", error);
         res.status(500).json({ success: false, message: 'Server Error', error: error.message });
     }
 });
