@@ -13,9 +13,11 @@ const cron = require('node-cron');
 dotenv.config();
 const app = express();
 
-// ✅ Correct CORS setup
+// ✅ Proper CORS Configuration
 app.use(cors({
     origin: 'https://chic-stardust-a6e0b6.netlify.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
 }));
 
@@ -24,13 +26,13 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
-// Cron job
+// 🔄 Cron job to mark completed bookings
 cron.schedule('*/15 * * * *', () => {
     console.log('Running automated booking completion check...');
     updateCompletedBookings();
 });
 
-// Routes
+// ✅ API Routes
 app.use('/api/trainers', require('./routes/trainerRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/availability', require('./routes/availabilityRoutes'));
@@ -40,6 +42,6 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/uploads/user_photos', express.static('uploads/user_photos'));
 
-// Start server
+// ✅ Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
