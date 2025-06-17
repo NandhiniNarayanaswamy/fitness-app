@@ -15,7 +15,7 @@ const app = express();
 
 // ✅ Proper CORS Configuration
 app.use(cors({
-    origin: 'https://dulcet-banoffee-04e30e.netlify.app',
+    origin: 'https://lively-griffin-51ed35.netlify.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
