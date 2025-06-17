@@ -94,20 +94,19 @@ const UserBookingManager = () => {
                             <p><strong>Trainer:</strong> {trainer?.name || 'N/A'}</p>
                             <p><strong>Status:</strong> {b.status}</p>
 
-                            {!b.feedback && b.status !== 'cancelled' && (
-                                <button onClick={() => setShowFeedback(b)}>Give Feedback</button>
-                            )}
+                            <div className="booking-buttons">
+                                {!b.feedback && b.status !== 'cancelled' && (
+                                    <button onClick={() => setShowFeedback(b)}>Give Feedback</button>
+                                )}
 
-                            {b.feedback?.response && (
-                                <p><strong>Trainer Reply:</strong> {b.feedback.response}</p>
-                            )}
+                                {b.status !== 'cancelled' && (
+                                    <>
+                                        <button onClick={() => handleRescheduleClick(b)}>Reschedule</button>
+                                        <button onClick={() => handleCancel(b._id)}>Cancel</button>
+                                    </>
+                                )}
+                            </div>
 
-                            {b.status !== 'cancelled' && (
-                                <>
-                                    <button onClick={() => handleRescheduleClick(b)}>Reschedule</button>
-                                    <button onClick={() => handleCancel(b._id)}>Cancel</button>
-                                </>
-                            )}
                         </div>
                     );
                 })
