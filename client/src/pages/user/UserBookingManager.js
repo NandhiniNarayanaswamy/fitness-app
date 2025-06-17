@@ -44,9 +44,10 @@ const UserBookingManager = () => {
         }
     };
 
-    const fetchAvailableSlots = async (trainerId) => {
+    // ✅ Fetch all available slots (public route)
+    const fetchAvailableSlots = async () => {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/availability/trainer/${trainerId}`);
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/availability/all`);
             setAvailableSlots(res.data);
         } catch (err) {
             console.error('Error fetching availability:', err);
@@ -55,7 +56,7 @@ const UserBookingManager = () => {
 
     const handleRescheduleClick = (booking) => {
         setRescheduleId(booking._id);
-        fetchAvailableSlots(booking.trainerId);
+        fetchAvailableSlots(); // no need for trainerId
     };
 
     const handleRescheduleSubmit = async () => {
