@@ -70,3 +70,30 @@ p.no-bookings {
     margin-top: 2rem;
     text-align: center;
 }
+
+.feedback-modal select {
+    background-color: #2e2e2e;
+    color: #fff;
+}
+
+.feedback-modal h3 {
+    color: #ff3c00;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.feedback-modal button {
+    background-color: #ff3c00;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 60, 0, 0.2);
+}
+
+.feedback-modal button:hover {
+    background-color: #e63a00;
+}
