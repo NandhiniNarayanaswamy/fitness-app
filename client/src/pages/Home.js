@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Home.css';
 import fitBg from '../assets/Homee.jpg';
-import aboutImg from '../assets/aboutt.webp'; // Make sure this path is correct
-import whyBg from '../assets/choosegym.jpg'; // update with actual image file name
-import trainersBg from '../assets/meet.webp';  // Add your background image
-
+import aboutImg from '../assets/aboutt.webp';
+import whyBg from '../assets/choosegym.jpg';
+import trainersBg from '../assets/meet.webp';
 
 import axios from 'axios';
 
@@ -16,8 +15,8 @@ const Home = () => {
     useEffect(() => {
         const fetchTrainers = async () => {
             try {
-                const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/trainer-profiles/all`); // your backend API route
-                setTrainers(res.data.profiles.slice(0, 4)); // show only 4 trainers
+                const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/trainer-profiles/all`);
+                setTrainers(res.data.profiles.slice(0, 4));
             } catch (err) {
                 console.error('Error fetching trainers:', err);
             }
@@ -27,10 +26,8 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            <div
-                className="hero-section"
-                style={{ backgroundImage: `url(${fitBg})` }}
-            >
+            {/* Hero Section */}
+            <div className="hero-section" style={{ backgroundImage: `url(${fitBg})` }}>
                 <section className="hero-section" id="hero">
                     <div className="hero-overlay">
                         <h1>Transform Your Body, Elevate Your Life</h1>
@@ -38,11 +35,9 @@ const Home = () => {
                     </div>
                 </section>
             </div>
+
             {/* About Section */}
-            <section
-                className="section about-section"
-                style={{ backgroundImage: `url(${aboutImg})` }}
-            >
+            <section className="section about-section" style={{ backgroundImage: `url(${aboutImg})` }}>
                 <div className="about-overlay">
                     <div className="text-content">
                         <h2>About FitBook</h2>
@@ -50,19 +45,17 @@ const Home = () => {
                             FitBook connects users with certified personal trainers
                             to help them achieve their fitness goals from anywhere.
                         </p>
-
                         <p>
-                            At FitBook, we blend cutting-edge technology with expert human coaching to deliver personalized fitness experiences <br /> online and in person. Our gym isn’t just a place to work out. It’s a space to transform, grow, and achieve your best self.
+                            At FitBook, we blend cutting-edge technology with expert human coaching to deliver personalized fitness experiences
+                            <br /> online and in person. Our gym isn’t just a place to work out. It’s a space to transform, grow, and achieve your best self.
                         </p>
                         <button onClick={() => navigate('/about')}>Learn More</button>
                     </div>
                 </div>
             </section>
-            {/* why choose our gym */}
-            <section
-                className="section why-section"
-                style={{ backgroundImage: `url(${whyBg})` }}
-            >
+
+            {/* Why Choose Us */}
+            <section className="section why-section" style={{ backgroundImage: `url(${whyBg})` }}>
                 <div className="why-overlay">
                     <div className="why-content">
                         <div className="why-text">
@@ -78,24 +71,19 @@ const Home = () => {
                 </div>
             </section>
 
-
-
-            {/* Our Trainers Section */}
-            <section
-                className="section trainers-section" id="trainers"
-                style={{ backgroundImage: `url(${trainersBg})` }}
-            >
+            {/* Trainers Section */}
+            <section className="section trainers-section" id="trainers" style={{ backgroundImage: `url(${trainersBg})` }}>
                 <div className="trainers-overlay">
                     <h2>Meet Our Trainers</h2>
                     <div className="trainers-grid">
                         {trainers.map((trainer) => (
                             <div key={trainer._id} className="trainer-card">
                                 <img
-                                    src={`${process.env.REACT_APP_BACKEND_URL}${trainer.photo}`}
+                                    src={trainer.photo} // ✅ FIXED: Using Cloudinary URL directly
                                     alt={trainer.name}
                                     className="trainer-photo"
+                                    onError={(e) => { e.target.src = '/default-trainer.jpg'; }} // Optional fallback
                                 />
-
                                 <h3>{trainer.name}</h3>
                                 <p>{trainer.specialization}</p>
                                 <button onClick={() => navigate('/user/dashboard/trainers')}>Learn More</button>
@@ -104,18 +92,17 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+
             {/* Contact Section */}
             <section className="contact-section" id="contact">
                 <div className="contact-content">
                     <h2>Contact Us</h2>
                     <p>Have questions? Want to join FitBook? Reach out now.</p>
-
                     <div className="contact-details">
                         <p><strong>📍 Address:</strong> 123 Fit Street, Muscle City, India</p>
                         <p><strong>📞 Phone:</strong> +91 98765 43210</p>
                         <p><strong>📧 Email:</strong> contact@fitbook.com</p>
                     </div>
-
                     <form className="contact-form">
                         <input type="text" placeholder="Your Name" required />
                         <input type="email" placeholder="Your Email" required />
@@ -124,9 +111,6 @@ const Home = () => {
                     </form>
                 </div>
             </section>
-
-
-
         </div>
     );
 };
