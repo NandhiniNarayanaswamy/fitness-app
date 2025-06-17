@@ -7,22 +7,28 @@ const feedbackRoutes = require('./routes/feedbackRoutes');
 const trainerProfileRoutes = require('./routes/trainerProfileRoutes');
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
 const { updateCompletedBookings } = require('./utils/cron');
 const cron = require('node-cron');
 
 dotenv.config();
 const app = express();
 
-cron.schedule('*/15 * * * *', () => {
-    console.log('Running automated booking completion check...');
-    updateCompletedBookings();
-});
-app.use(cors());
+// ✅ Correct CORS setup
+app.use(cors({
+    origin: 'https://chic-stardust-a6e0b6.netlify.app',
+    credentials: true,
+}));
+
 app.use(express.json());
 
 // Connect to MongoDB
 connectDB();
+
+// Cron job
+cron.schedule('*/15 * * * *', () => {
+    console.log('Running automated booking completion check...');
+    updateCompletedBookings();
+});
 
 // Routes
 app.use('/api/trainers', require('./routes/trainerRoutes'));
