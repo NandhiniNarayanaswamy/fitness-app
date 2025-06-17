@@ -3,7 +3,6 @@ import axios from 'axios';
 import '../../styles/userTrainerList.css';
 import "../../styles/trainerProfileForm.css";
 
-
 const UserTrainerList = () => {
     const [trainers, setTrainers] = useState([]);
 
@@ -17,14 +16,12 @@ const UserTrainerList = () => {
 
     return (
         <div className="dashboard-container">
-
             <div className="user-trainer-list">
                 <h2>Available Fitness Trainers</h2>
                 <div className="trainer-grid">
                     {trainers.map((trainer, index) => (
                         <div key={index} className="trainer-card">
-                            <img src={`${process.env.REACT_APP_BACKEND_URL}${trainer.photo}`} alt={trainer.name} />
-
+                            <img src={trainer.photo} alt={trainer.name} className="trainer-image" />
                             <h3>{trainer.name}</h3>
                             <p><strong>Qualifications:</strong> {trainer.qualifications}</p>
                             <p><strong>Expertise:</strong> {trainer.expertise}</p>
@@ -34,7 +31,6 @@ const UserTrainerList = () => {
                     ))}
                 </div>
             </div>
-
         </div>
     );
 };
