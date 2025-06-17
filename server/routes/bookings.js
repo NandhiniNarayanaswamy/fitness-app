@@ -5,6 +5,7 @@ const Booking = require('../models/Booking');
 const Availability = require('../models/Availability');
 const sendMail = require('../utils/mailer');
 
+
 // ✅ Create a new booking
 router.post('/', async (req, res) => {
     const { userId, userEmail, trainerId, scheduleId } = req.body;

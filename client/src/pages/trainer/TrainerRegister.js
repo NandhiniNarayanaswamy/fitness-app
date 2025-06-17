@@ -9,7 +9,7 @@ export default function TrainerRegister() {
     };
 
     const handleSubmit = async e => {
-        e.preventDefault();
+        e.preventDefault();s
         try {
             await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/trainers/register`, form);
             alert('Registered Successfully');

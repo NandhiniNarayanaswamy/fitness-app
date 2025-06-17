@@ -7,7 +7,7 @@ function Footer() {
             <div className="footer-content">
                 <p>&copy; {new Date().getFullYear()} <strong>FitBook</strong> | All rights reserved.</p>
                 <p className="footer-links">
-                    <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/trainers">Our Trainers</a>
+                    <a href="/about">About</a> | <a href="/">Contact</a> | <a href="/user/dashboard/trainers">Our Trainers</a>
                 </p>
             </div>
         </footer>

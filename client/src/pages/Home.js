@@ -90,10 +90,15 @@ const Home = () => {
                     <div className="trainers-grid">
                         {trainers.map((trainer) => (
                             <div key={trainer._id} className="trainer-card">
-                                <img src={trainer.photo} alt={trainer.name} className="trainer-photo" />
+                                <img
+                                    src={`${process.env.REACT_APP_BACKEND_URL}${trainer.photo}`}
+                                    alt={trainer.name}
+                                    className="trainer-photo"
+                                />
+
                                 <h3>{trainer.name}</h3>
                                 <p>{trainer.specialization}</p>
-                                <button onClick={() => navigate('/user/trainers')}>Learn More</button>
+                                <button onClick={() => navigate('/user/dashboard/trainers')}>Learn More</button>
                             </div>
                         ))}
                     </div>

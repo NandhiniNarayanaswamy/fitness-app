@@ -26,7 +26,7 @@ const DashboardSidebar = ({ role = 'user', name = 'User' }) => {
         { to: 'profile-form', icon: <FaUserPlus />, label: 'Create Profile' },
         { to: 'availability', icon: <FaCalendarAlt />, label: 'Your Availability' },
         { to: 'bookings', icon: <FaVideo />, label: 'Your Schedules' },
-        { to: 'feedback', icon: <FaCommentDots />, label: 'Response to Feedback' },
+        { to: 'feedback', icon: <FaCommentDots />, label: 'Respond to Feedback' },
     ] : [
         { to: '', icon: <FaTachometerAlt />, label: 'Dashboard', exact: true },
         { to: 'trainers', icon: <FaUsers />, label: 'Trainers' },
@@ -42,9 +42,7 @@ const DashboardSidebar = ({ role = 'user', name = 'User' }) => {
             <div className="logo">
                 <h2>Fit<span>Book</span></h2>
             </div>
-            <div className="welcome-message">
-                Welcome, <strong>{name}</strong>
-            </div>
+            <div className="welcome-message">Welcome, <strong>{name}</strong></div>
 
             <nav className="nav-links">
                 <ul>

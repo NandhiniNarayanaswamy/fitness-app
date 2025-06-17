@@ -30,6 +30,7 @@ import Home from './pages/Home';
 import LoginRegister from './pages/LoginRegister';
 import About from './pages/about';
 
+
 // Layout
 import DashboardLayout from './components/DashboardLayout';
 import './App.css';

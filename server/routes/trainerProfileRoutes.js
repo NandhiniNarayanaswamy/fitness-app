@@ -1,26 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('../utils/cloudinary'); // Make sure this file is correctly configured
 const TrainerProfile = require('../models/TrainerProfile');
 
-// Multer setup
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // store in uploads folder
+// Configure Cloudinary Storage for Multer
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'fitbook/trainers', // Folder in your Cloudinary account
+        allowed_formats: ['jpg', 'jpeg', 'png'],
+        public_id: (req, file) => Date.now() + '-' + file.originalname,
     },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname); // unique name
-    }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 // @route POST /api/trainer-profiles/upload
 router.post('/upload', upload.single('photo'), async (req, res) => {
     try {
         const { name, qualifications, expertise, specialization, message, email } = req.body;
-
-        const photo = req.file ? `/uploads/${req.file.filename}` : '';
+        const photo = req.file ? req.file.path : ''; // Cloudinary returns secure URL
 
         const newProfile = new TrainerProfile({
             name,
@@ -51,4 +52,5 @@ router.get('/all', async (req, res) => {
     }
 });
 
+// ✅ Export the router to fix "handler must be a function" error
 module.exports = router;
