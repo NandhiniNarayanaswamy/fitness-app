@@ -65,8 +65,36 @@
     color: #ff8a50;
 }
 
-/* 🔄 Mobile Optimization */
-@media (max-width: 600px) {
+/* 🔄 Medium & Small Devices */
+@media (max-width: 768px) {
+    .user-trainer-list {
+        padding: 1.5rem;
+        margin: 1.5rem;
+    }
+
+    .trainer-card {
+        padding: 1.2rem;
+    }
+
+    .trainer-card img {
+        height: 180px;
+    }
+
+    .user-trainer-list h2 {
+        font-size: 1.6rem;
+    }
+
+    .trainer-card h3 {
+        font-size: 1.15rem;
+    }
+
+    .trainer-card p {
+        font-size: 0.9rem;
+    }
+}
+
+/* 📱 Extra Small Devices (Phones) */
+@media (max-width: 480px) {
     .user-trainer-list {
         padding: 1rem;
         margin: 1rem;
@@ -77,18 +105,18 @@
     }
 
     .trainer-card img {
-        height: 160px;
+        height: 150px;
     }
 
     .user-trainer-list h2 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
     .trainer-card h3 {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
     .trainer-card p {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
     }
 }
