@@ -21,6 +21,7 @@ import UserFeedbackList from './pages/user/UserFeedbackList';
 import UserProfile from './pages/user/UserProfile';
 import UserMyProfile from './pages/user/UserMyProfile';
 import UserDashboard from './pages/user/UserDashboard';
+import TrainerProfiles from './pages/TrainerProfiles';
 
 // Common Pages
 import StripeBookingForm from './components/StripeBookingForm';
@@ -56,6 +57,7 @@ function App() {
         <Route path="/" element={<WithLayout><Home /></WithLayout>} />
         <Route path="/signup" element={<WithLayout><LoginRegister /></WithLayout>} />
         <Route path="/about" element={<WithLayout><About /></WithLayout>} />
+        <Route path="/trainers" element={<WithLayout><TrainerProfiles /></WithLayout>} />
 
         {/* ----- User Dashboard ----- */}
         <Route path="/user/dashboard" element={<DashboardLayout role="user" />}>
