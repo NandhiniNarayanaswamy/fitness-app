@@ -4,7 +4,6 @@ import '../../styles/userAvailability.css';
 import StripeBookingForm from '../../components/StripeBookingForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-// ... (imports remain the same)
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISH_KEY);
 
@@ -18,14 +17,18 @@ const UserAvailabilityView = () => {
     const [filterDate, setFilterDate] = useState('');
     const [showPayment, setShowPayment] = useState(false);
     const [selectedSlot, setSelectedSlot] = useState(null);
+    const [loading, setLoading] = useState(true); // ✅ Spinner loading state
 
     const fetchSlots = async () => {
+        setLoading(true);
         try {
             const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/availability/all`);
             setSlots(res.data);
             setFilteredSlots(res.data);
         } catch (error) {
             console.error('Failed to fetch slots:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -39,23 +42,14 @@ const UserAvailabilityView = () => {
         let filtered = slots;
 
         if (filterType) {
-            filtered = filtered.filter(slot =>
-                slot.type.toLowerCase() === filterType.toLowerCase()
-            );
+            filtered = filtered.filter(slot => slot.type.toLowerCase() === filterType.toLowerCase());
         }
-
         if (filterDuration) {
-            filtered = filtered.filter(slot =>
-                slot.duration.toLowerCase() === filterDuration.toLowerCase()
-            );
+            filtered = filtered.filter(slot => slot.duration.toLowerCase() === filterDuration.toLowerCase());
         }
-
         if (filterTimeSlot) {
-            filtered = filtered.filter(slot =>
-                slot.timeSlot.toLowerCase() === filterTimeSlot.toLowerCase()
-            );
+            filtered = filtered.filter(slot => slot.timeSlot.toLowerCase() === filterTimeSlot.toLowerCase());
         }
-
         if (filterDate) {
             filtered = filtered.filter(slot => {
                 if (!slot.date) return false;
@@ -97,7 +91,6 @@ const UserAvailabilityView = () => {
         }
     };
 
-    // ✅ Utility function to check if slot is in the past
     const isPastSession = (date, timeSlot) => {
         const now = new Date();
         const sessionDate = new Date(date);
@@ -160,7 +153,9 @@ const UserAvailabilityView = () => {
             </div>
 
             <ul className="user-slot-list">
-                {filteredSlots.length > 0 ? (
+                {loading ? (
+                    <li className="spinner-container"><div className="spinner" /></li>
+                ) : filteredSlots.length > 0 ? (
                     filteredSlots.map((slot) => {
                         const past = isPastSession(slot.date, slot.timeSlot);
                         return (
