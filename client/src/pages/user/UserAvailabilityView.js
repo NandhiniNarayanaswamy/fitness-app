@@ -17,7 +17,7 @@ const UserAvailabilityView = () => {
     const [filterDate, setFilterDate] = useState('');
     const [showPayment, setShowPayment] = useState(false);
     const [selectedSlot, setSelectedSlot] = useState(null);
-    const [loading, setLoading] = useState(true); // ✅ Spinner loading state
+    const [loading, setLoading] = useState(true);
 
     const fetchSlots = async () => {
         setLoading(true);
@@ -38,8 +38,29 @@ const UserAvailabilityView = () => {
         if (email) setUserEmail(email);
     }, []);
 
+    const isPastSession = (date, timeSlot) => {
+        const now = new Date();
+        const sessionDate = new Date(date);
+
+        if (!timeSlot || !date) return true;
+
+        // Handle timeSlot like "06:30 PM"
+        const [time, meridian] = timeSlot.split(' ');
+        let [hour, minute] = time.split(':').map(Number);
+
+        if (meridian === 'PM' && hour !== 12) hour += 12;
+        if (meridian === 'AM' && hour === 12) hour = 0;
+
+        sessionDate.setHours(hour, minute, 0, 0);
+
+        return sessionDate <= now;
+    };
+
     useEffect(() => {
         let filtered = slots;
+
+        // Filter out past sessions first
+        filtered = filtered.filter(slot => !isPastSession(slot.date, slot.timeSlot));
 
         if (filterType) {
             filtered = filtered.filter(slot => slot.type.toLowerCase() === filterType.toLowerCase());
@@ -89,18 +110,6 @@ const UserAvailabilityView = () => {
             console.error('Booking check failed:', error);
             alert('❌ Could not verify existing bookings. Please try again.');
         }
-    };
-
-    const isPastSession = (date, timeSlot) => {
-        const now = new Date();
-        const sessionDate = new Date(date);
-
-        if (!timeSlot || !date) return true;
-
-        const [startHour, startMinute] = timeSlot.split('-')[0].split(':');
-        sessionDate.setHours(+startHour, +startMinute, 0);
-
-        return sessionDate < now;
     };
 
     const uniqueTypes = [...new Set(slots.map(slot => slot.type))];
@@ -156,37 +165,28 @@ const UserAvailabilityView = () => {
                 {loading ? (
                     <li className="spinner-container"><div className="spinner" /></li>
                 ) : filteredSlots.length > 0 ? (
-                    filteredSlots.map((slot) => {
-                        const past = isPastSession(slot.date, slot.timeSlot);
-                        return (
-                            <li key={slot._id} className="slot-card">
-                                <div className="slot-info">
-                                    <strong>{slot.type}</strong>
-                                    <span>Duration: {slot.duration}</span>
-                                    <span>Time: {slot.timeSlot}</span>
-                                    <span>
-                                        Date:{' '}
-                                        {slot.date && !isNaN(new Date(slot.date))
-                                            ? new Date(slot.date).toLocaleDateString()
-                                            : 'Invalid date'}
-                                    </span>
-                                    <span>Price: ₹{slot.price}</span>
-                                    {slot.trainer && <span>Trainer: {slot.trainer.name}</span>}
-                                </div>
-                                <div className="slot-book">
-                                    <button
-                                        onClick={() => handleBooking(slot)}
-                                        disabled={past}
-                                        style={{ opacity: past ? 0.5 : 1, cursor: past ? 'not-allowed' : 'pointer' }}
-                                    >
-                                        {past ? 'Closed' : 'Book'}
-                                    </button>
-                                </div>
-                            </li>
-                        );
-                    })
+                    filteredSlots.map((slot) => (
+                        <li key={slot._id} className="slot-card">
+                            <div className="slot-info">
+                                <strong>{slot.type}</strong>
+                                <span>Duration: {slot.duration}</span>
+                                <span>Time: {slot.timeSlot}</span>
+                                <span>
+                                    Date:{' '}
+                                    {slot.date && !isNaN(new Date(slot.date))
+                                        ? new Date(slot.date).toLocaleDateString()
+                                        : 'Invalid date'}
+                                </span>
+                                <span>Price: ₹{slot.price}</span>
+                                {slot.trainer && <span>Trainer: {slot.trainer.name}</span>}
+                            </div>
+                            <div className="slot-book">
+                                <button onClick={() => handleBooking(slot)}>Book</button>
+                            </div>
+                        </li>
+                    ))
                 ) : (
-                    <li>No classes match the filter criteria.</li>
+                    <li>No upcoming classes match the filter criteria.</li>
                 )}
             </ul>
 
