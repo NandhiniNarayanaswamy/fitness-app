@@ -114,17 +114,20 @@ const UserBookingManager = () => {
                                     const [hourStr, minuteStr, meridian] = schedule?.timeSlot?.split(/:| /) || [];
                                     let hours = parseInt(hourStr, 10);
                                     const minutes = parseInt(minuteStr, 10);
+
                                     if (meridian === 'PM' && hours !== 12) hours += 12;
                                     if (meridian === 'AM' && hours === 12) hours = 0;
 
                                     const startTime = new Date(schedule?.date);
                                     startTime.setHours(hours, minutes, 0, 0);
 
-                                    const endTime = new Date(startTime.getTime() + schedule?.duration * 60000);
-                                    const eligibleTime = new Date(endTime.getTime() + 10 * 60000);
+                                    const duration = Number(schedule?.duration) || 0;
+                                    const feedbackBufferMins = 10;
 
+                                    const endTime = new Date(startTime.getTime() + (duration + feedbackBufferMins) * 60000);
                                     const now = new Date();
-                                    const canGiveFeedback = now >= eligibleTime;
+
+                                    const canGiveFeedback = now >= endTime;
 
                                     return (
                                         <button
