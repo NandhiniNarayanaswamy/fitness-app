@@ -44,7 +44,6 @@ const UserBookingManager = () => {
         }
     };
 
-    // ✅ Fetch all available slots (public route)
     const fetchAvailableSlots = async () => {
         try {
             const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/availability/all`);
@@ -56,11 +55,21 @@ const UserBookingManager = () => {
 
     const handleRescheduleClick = (booking) => {
         setRescheduleId(booking._id);
-        fetchAvailableSlots(); // no need for trainerId
+        fetchAvailableSlots();
     };
 
     const handleRescheduleSubmit = async () => {
         if (!newScheduleId) return;
+
+        // ✅ Prevent double booking
+        const alreadyBooked = bookings.some(b =>
+            b.scheduleId._id === newScheduleId && b.status !== 'cancelled'
+        );
+
+        if (alreadyBooked) {
+            alert('You have already booked this time slot.');
+            return;
+        }
 
         try {
             const res = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/${rescheduleId}`, {
@@ -98,7 +107,6 @@ const UserBookingManager = () => {
                                 {!b.feedback && b.status !== 'cancelled' && (
                                     <button onClick={() => setShowFeedback(b)}>Give Feedback</button>
                                 )}
-
                                 {b.status !== 'cancelled' && (
                                     <>
                                         <button onClick={() => handleRescheduleClick(b)}>Reschedule</button>
@@ -106,7 +114,6 @@ const UserBookingManager = () => {
                                     </>
                                 )}
                             </div>
-
                         </div>
                     );
                 })

@@ -13,4 +13,13 @@ const bookingSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+// ✅ Prevent duplicate bookings for same user and schedule unless cancelled
+bookingSchema.index(
+    { userEmail: 1, scheduleId: 1 },
+    {
+        unique: true,
+        partialFilterExpression: { status: { $ne: 'cancelled' } }
+    }
+);
+
 module.exports = mongoose.model('Booking', bookingSchema);

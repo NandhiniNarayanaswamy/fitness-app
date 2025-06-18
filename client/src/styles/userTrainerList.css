@@ -120,3 +120,31 @@
         font-size: 0.8rem;
     }
 }
+
+@media (max-width: 400px) {
+    .trainer-grid {
+        grid-template-columns: 1fr;
+        /* Force full-width stacking */
+    }
+
+    .user-trainer-list {
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    .trainer-card {
+        padding: 0.8rem;
+    }
+
+    .trainer-card img {
+        height: 140px;
+    }
+
+    .trainer-card h3 {
+        font-size: 1rem;
+    }
+
+    .trainer-card p {
+        font-size: 0.75rem;
+    }
+}

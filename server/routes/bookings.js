@@ -5,8 +5,7 @@ const Booking = require('../models/Booking');
 const Availability = require('../models/Availability');
 const sendMail = require('../utils/mailer');
 
-
-// ✅ Create a new booking
+// ✅ Create a new booking with duplicate check
 router.post('/', async (req, res) => {
     const { userId, userEmail, trainerId, scheduleId } = req.body;
 
@@ -14,6 +13,17 @@ router.post('/', async (req, res) => {
         const schedule = await Availability.findById(scheduleId);
         if (!schedule) {
             return res.status(404).json({ message: 'Schedule not found' });
+        }
+
+        // Check for existing active booking for the same schedule and user
+        const existingBooking = await Booking.findOne({
+            userEmail,
+            scheduleId,
+            status: { $ne: 'cancelled' }
+        });
+
+        if (existingBooking) {
+            return res.status(400).json({ message: 'You have already booked this session.' });
         }
 
         const booking = await Booking.create({
@@ -46,7 +56,7 @@ router.post('/payment/create-payment-intent', async (req, res) => {
 
     try {
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(amount * 100), // convert rupees to paise
+            amount: Math.round(amount * 100),
             currency: 'inr',
             metadata: {
                 userEmail: userEmail || 'unknown',
@@ -62,7 +72,7 @@ router.post('/payment/create-payment-intent', async (req, res) => {
     }
 });
 
-// ✅ Get bookings for a specific user (by email)
+// ✅ Get bookings for a specific user
 router.get('/user/:email', async (req, res) => {
     try {
         const bookings = await Booking.find({ userEmail: req.params.email })
@@ -120,12 +130,12 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-// ✅ Get bookings for a specific trainer and show user info
+// ✅ Get bookings for a specific trainer
 router.get('/trainer/:id', async (req, res) => {
     try {
         const bookings = await Booking.find({ trainerId: req.params.id })
             .populate('scheduleId')
-            .populate('userId', 'name email'); // 👈 show user info
+            .populate('userId', 'name email');
 
         res.json(bookings);
     } catch (err) {
@@ -134,7 +144,7 @@ router.get('/trainer/:id', async (req, res) => {
     }
 });
 
-// ✅ Confirm booking after successful payment
+// ✅ Confirm booking after payment with duplicate check
 router.post('/payment/confirm-booking', async (req, res) => {
     const { userId, userEmail, trainerId, scheduleId } = req.body;
 
@@ -142,6 +152,17 @@ router.post('/payment/confirm-booking', async (req, res) => {
         const schedule = await Availability.findById(scheduleId);
         if (!schedule) {
             return res.status(404).json({ message: 'Schedule not found' });
+        }
+
+        // Check for existing active booking
+        const existingBooking = await Booking.findOne({
+            userEmail,
+            scheduleId,
+            status: { $ne: 'cancelled' }
+        });
+
+        if (existingBooking) {
+            return res.status(400).json({ message: 'You have already booked this session.' });
         }
 
         const booking = await Booking.create({
