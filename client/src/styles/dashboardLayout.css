@@ -45,3 +45,37 @@
     color: #ff4500;
     margin-bottom: 20px;
 }
+
+/* dashboardLayout.css */
+
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Main content section */
+.dashboard-main {
+    flex: 1;
+    padding: 20px;
+    margin-left: 260px;
+    transition: margin-left 0.3s ease;
+}
+
+.dashboard-page-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* Responsive: On mobile, push content to full width */
+@media (max-width: 768px) {
+    .dashboard-main {
+        margin-left: 0;
+        padding-top: 70px;
+        /* Add padding so it's not hidden behind hamburger */
+    }
+
+    .dashboard-wrapper {
+        flex-direction: column;
+    }
+}
