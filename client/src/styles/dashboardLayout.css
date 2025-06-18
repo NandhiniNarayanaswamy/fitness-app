@@ -2,80 +2,80 @@
 .dashboard-wrapper {
     display: flex;
     min-height: 100vh;
-
+    background-color: #000;
     /* Pure black background */
 }
-
-
-
 
 /* Main Dashboard Content */
 .dashboard-main {
     margin-left: 250px;
     padding: 2rem;
     width: calc(100% - 250px);
-
-    /* unified light black background */
     color: #fff;
-}
-
-.class-card,
-.class-container,
-.booking-container {
-    background-color: #1a1a1a;
-    /* Match main background */
-    color: #fff;
-    border: 1px solid rgba(255, 69, 0, 0.2);
-    /* optional red-orange border */
-    border-radius: 12px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
-
-.dashboard-main {
+    background-color: #121212;
+    /* Unified dark background */
     flex: 1;
-    padding: 30px;
-
-    color: #fff;
     min-height: 100vh;
+    transition: margin-left 0.3s ease;
 }
 
+/* Dashboard Title */
 .dashboard-page-title {
     font-size: 28px;
     color: #ff4500;
     margin-bottom: 20px;
 }
 
-/* dashboardLayout.css */
-
-.dashboard-wrapper {
-    display: flex;
-    min-height: 100vh;
-}
-
-/* Main content section */
-.dashboard-main {
-    flex: 1;
-    padding: 20px;
-    margin-left: 260px;
-    transition: margin-left 0.3s ease;
-}
-
-.dashboard-page-title {
-    font-size: 28px;
-    margin-bottom: 20px;
+/* Card Containers */
+.class-card,
+.class-container,
+.booking-container {
+    background-color: #1a1a1a;
     color: #fff;
+    border: 1px solid rgba(255, 69, 0, 0.2);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
 }
 
-/* Responsive: On mobile, push content to full width */
+/* Responsive for Mobile */
 @media (max-width: 768px) {
+    .dashboard-wrapper {
+        flex-direction: column;
+    }
+
     .dashboard-main {
         margin-left: 0;
         padding-top: 70px;
-        /* Add padding so it's not hidden behind hamburger */
+        /* Prevent content being hidden behind navbar */
+        width: 100%;
     }
 
-    .dashboard-wrapper {
-        flex-direction: column;
+    /* Sidebar responsive behavior */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 250px;
+        height: 100%;
+        background-color: #1c1f2b;
+        z-index: 999;
+        transition: left 0.3s ease;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .hamburger {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        font-size: 1.8rem;
+        background: transparent;
+        color: white;
+        z-index: 1001;
+        border: none;
+        cursor: pointer;
     }
 }
