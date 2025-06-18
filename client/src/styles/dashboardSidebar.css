@@ -25,7 +25,7 @@
     flex: 1;
     margin-left: 260px;
     padding: 20px;
-    background-color: #121212;
+
     color: #fff;
     transition: margin-left 0.3s ease;
 }
@@ -86,7 +86,7 @@
 .nav-link:hover,
 .nav-link.active,
 .logout-btn:hover {
-    background-color: rgba(255, 69, 0, 0.2);
+
     /* smooth fixed highlight */
     color: #fff;
 }
