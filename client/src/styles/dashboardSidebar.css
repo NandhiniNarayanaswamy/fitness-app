@@ -25,7 +25,6 @@
     flex: 1;
     margin-left: 260px;
     padding: 20px;
-
     color: #fff;
     transition: margin-left 0.3s ease;
 }
@@ -44,6 +43,7 @@
 
 .logo span {
     color: #ff4500;
+    /* Maroon/Orange accent */
 }
 
 /* === Welcome Message === */
@@ -75,22 +75,27 @@
     font-size: 16px;
     border: none;
     background-color: transparent;
-    /* ensure consistent background */
     width: 100%;
     border-radius: 6px;
     transition: background-color 0.3s ease, color 0.3s ease;
     box-sizing: border-box;
-    /* prevent box shift on hover */
 }
 
+/* ✅ Hover and Active Fix */
 .nav-link:hover,
-.nav-link.active,
 .logout-btn:hover {
-
-    /* smooth fixed highlight */
+    background-color: rgba(255, 69, 0, 0.15);
+    /* Maroonish hover */
     color: #fff;
 }
 
+.nav-link.active {
+    background-color: rgba(255, 69, 0, 0.25);
+    /* Active state */
+    color: #fff;
+}
+
+/* Icons and Labels */
 .nav-link.active .icon,
 .nav-link.active .label,
 .logout-btn:hover .icon {
@@ -109,8 +114,6 @@
 }
 
 @media (max-width: 768px) {
-
-    /* Hide sidebar by default */
     .sidebar {
         transform: translateX(-100%);
         position: fixed;
@@ -123,18 +126,15 @@
         transition: transform 0.3s ease-in-out;
     }
 
-    /* Show sidebar when toggled open */
     .sidebar.open {
         transform: translateX(0);
     }
 
-    /* Adjust main content on mobile */
     .dashboard-main {
         margin-left: 0;
         padding-top: 70px;
     }
 
-    /* Show hamburger */
     .hamburger {
         display: block;
         position: fixed;
