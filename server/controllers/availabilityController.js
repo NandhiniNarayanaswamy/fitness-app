@@ -36,6 +36,13 @@ exports.deleteSlot = async (req, res) => {
 };
 
 exports.getAllSlots = async (req, res) => {
-    const slots = await Availability.find().populate('trainer', 'name');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Midnight - start of today
+
+    const slots = await Availability.find({
+        date: { $gte: today }
+    }).populate('trainer', 'name');
+
     res.json(slots);
 };
+

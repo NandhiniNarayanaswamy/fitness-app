@@ -4,6 +4,7 @@ import '../../styles/userAvailability.css';
 import StripeBookingForm from '../../components/StripeBookingForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+// ... (imports remain the same)
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISH_KEY);
 
@@ -96,6 +97,19 @@ const UserAvailabilityView = () => {
         }
     };
 
+    // ✅ Utility function to check if slot is in the past
+    const isPastSession = (date, timeSlot) => {
+        const now = new Date();
+        const sessionDate = new Date(date);
+
+        if (!timeSlot || !date) return true;
+
+        const [startHour, startMinute] = timeSlot.split('-')[0].split(':');
+        sessionDate.setHours(+startHour, +startMinute, 0);
+
+        return sessionDate < now;
+    };
+
     const uniqueTypes = [...new Set(slots.map(slot => slot.type))];
     const uniqueDurations = [...new Set(slots.map(slot => slot.duration))];
     const uniqueTimeSlots = [...new Set(slots.map(slot => slot.timeSlot))];
@@ -147,26 +161,35 @@ const UserAvailabilityView = () => {
 
             <ul className="user-slot-list">
                 {filteredSlots.length > 0 ? (
-                    filteredSlots.map((slot) => (
-                        <li key={slot._id} className="slot-card">
-                            <div className="slot-info">
-                                <strong>{slot.type}</strong>
-                                <span>Duration: {slot.duration}</span>
-                                <span>Time: {slot.timeSlot}</span>
-                                <span>
-                                    Date:{' '}
-                                    {slot.date && !isNaN(new Date(slot.date))
-                                        ? new Date(slot.date).toLocaleDateString()
-                                        : 'Invalid date'}
-                                </span>
-                                <span>Price: ₹{slot.price}</span>
-                                {slot.trainer && <span>Trainer: {slot.trainer.name}</span>}
-                            </div>
-                            <div className="slot-book">
-                                <button onClick={() => handleBooking(slot)}>Book</button>
-                            </div>
-                        </li>
-                    ))
+                    filteredSlots.map((slot) => {
+                        const past = isPastSession(slot.date, slot.timeSlot);
+                        return (
+                            <li key={slot._id} className="slot-card">
+                                <div className="slot-info">
+                                    <strong>{slot.type}</strong>
+                                    <span>Duration: {slot.duration}</span>
+                                    <span>Time: {slot.timeSlot}</span>
+                                    <span>
+                                        Date:{' '}
+                                        {slot.date && !isNaN(new Date(slot.date))
+                                            ? new Date(slot.date).toLocaleDateString()
+                                            : 'Invalid date'}
+                                    </span>
+                                    <span>Price: ₹{slot.price}</span>
+                                    {slot.trainer && <span>Trainer: {slot.trainer.name}</span>}
+                                </div>
+                                <div className="slot-book">
+                                    <button
+                                        onClick={() => handleBooking(slot)}
+                                        disabled={past}
+                                        style={{ opacity: past ? 0.5 : 1, cursor: past ? 'not-allowed' : 'pointer' }}
+                                    >
+                                        {past ? 'Closed' : 'Book'}
+                                    </button>
+                                </div>
+                            </li>
+                        );
+                    })
                 ) : (
                     <li>No classes match the filter criteria.</li>
                 )}
@@ -184,7 +207,7 @@ const UserAvailabilityView = () => {
                                     alert('Booking successful and payment completed!');
                                     setShowPayment(false);
                                     setSelectedSlot(null);
-                                    fetchSlots(); // refresh slot list
+                                    fetchSlots();
                                 }}
                             />
                         </Elements>

@@ -62,14 +62,12 @@ const UserBookingManager = () => {
         if (!newScheduleId) return;
 
         try {
-            // ✅ Fetch all bookings again for latest data
             const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/user/${userEmail}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
             const userBookings = res.data;
 
-            // ✅ Prevent selecting already booked slot (not cancelled)
             const alreadyBooked = userBookings.some(b =>
                 b.scheduleId?._id === newScheduleId && b.status !== 'cancelled'
             );
@@ -79,7 +77,6 @@ const UserBookingManager = () => {
                 return;
             }
 
-            // ✅ Proceed with rescheduling
             const updateRes = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/${rescheduleId}`, {
                 scheduleId: newScheduleId
             }, {
@@ -94,6 +91,19 @@ const UserBookingManager = () => {
             console.error('Reschedule failed:', err);
             alert('❌ Reschedule failed. Please try again.');
         }
+    };
+
+    // ✅ Utility to check if session is in the past
+    const isPastSession = (date, timeSlot) => {
+        const now = new Date();
+        const sessionDate = new Date(date);
+
+        if (!timeSlot || !date) return false;
+
+        const [startHour, startMinute] = timeSlot.split('-')[0].split(':');
+        sessionDate.setHours(+startHour, +startMinute, 0);
+
+        return sessionDate < now;
     };
 
     return (
@@ -113,7 +123,7 @@ const UserBookingManager = () => {
                             <p><strong>Status:</strong> {b.status}</p>
 
                             <div className="booking-buttons">
-                                {!b.feedback && b.status !== 'cancelled' && (
+                                {!b.feedback && b.status !== 'cancelled' && isPastSession(schedule?.date, schedule?.timeSlot) && (
                                     <button onClick={() => setShowFeedback(b)}>Give Feedback</button>
                                 )}
                                 {b.status !== 'cancelled' && (

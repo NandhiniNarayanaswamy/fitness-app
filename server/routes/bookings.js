@@ -5,7 +5,7 @@ const Booking = require('../models/Booking');
 const Availability = require('../models/Availability');
 const sendMail = require('../utils/mailer');
 
-// ✅ Create a new booking with duplicate check
+// ✅ Create a new booking with duplicate & past-date check
 router.post('/', async (req, res) => {
     const { userId, userEmail, trainerId, scheduleId } = req.body;
 
@@ -15,7 +15,16 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: 'Schedule not found' });
         }
 
-        // Check for existing active booking for the same schedule and user
+        // 🔒 Prevent booking for past classes
+        const now = new Date();
+        const scheduleDate = new Date(schedule.date);
+        scheduleDate.setHours(0, 0, 0, 0);
+        now.setHours(0, 0, 0, 0);
+        if (scheduleDate < now) {
+            return res.status(400).json({ message: 'Cannot book a past class.' });
+        }
+
+        // Duplicate booking check
         const existingBooking = await Booking.findOne({
             userEmail,
             scheduleId,
@@ -144,7 +153,7 @@ router.get('/trainer/:id', async (req, res) => {
     }
 });
 
-// ✅ Confirm booking after payment with duplicate check
+// ✅ Confirm booking after payment with duplicate & date check
 router.post('/payment/confirm-booking', async (req, res) => {
     const { userId, userEmail, trainerId, scheduleId } = req.body;
 
@@ -154,7 +163,16 @@ router.post('/payment/confirm-booking', async (req, res) => {
             return res.status(404).json({ message: 'Schedule not found' });
         }
 
-        // Check for existing active booking
+        // 🔒 Prevent booking for past classes
+        const now = new Date();
+        const scheduleDate = new Date(schedule.date);
+        scheduleDate.setHours(0, 0, 0, 0);
+        now.setHours(0, 0, 0, 0);
+        if (scheduleDate < now) {
+            return res.status(400).json({ message: 'Cannot book a past class.' });
+        }
+
+        // Duplicate booking check
         const existingBooking = await Booking.findOne({
             userEmail,
             scheduleId,
