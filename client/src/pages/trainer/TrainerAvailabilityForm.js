@@ -112,7 +112,7 @@ const TrainerAvailabilityForm = () => {
                 />
                 <input
                     name="duration"
-                    placeholder="Duration (e.g., 60 mins)"
+                    placeholder="Duration 30,45,60,90 mins only"
                     onChange={handleChange}
                     value={form.duration}
                     required
