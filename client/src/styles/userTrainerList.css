@@ -1,10 +1,8 @@
 .user-trainer-list {
     padding: 2rem;
     background: rgba(30, 30, 30, 0.6);
-    /* light black glass background */
     border-radius: 20px;
     box-shadow: 0 8px 30px rgba(255, 69, 0, 0.2);
-    /* soft red-orange shadow */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     color: #f5f5f5;
@@ -15,10 +13,10 @@
 .user-trainer-list h2 {
     text-align: center;
     color: #ff5722;
-    /* red-orange */
     margin-bottom: 2rem;
     border-bottom: 2px solid #ff5722;
     padding-bottom: 0.5rem;
+    font-size: 1.8rem;
 }
 
 .trainer-grid {
@@ -29,11 +27,9 @@
 
 .trainer-card {
     background: rgba(40, 40, 40, 0.55);
-    /* semi-transparent light black */
     border-radius: 16px;
     padding: 1.5rem;
     box-shadow: 0 6px 20px rgba(255, 87, 34, 0.15);
-    /* light red-orange glow */
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 87, 34, 0.2);
     transition: transform 0.2s ease, box-shadow 0.3s ease;
@@ -56,6 +52,7 @@
 .trainer-card h3 {
     color: #ff5722;
     margin-bottom: 0.5rem;
+    font-size: 1.3rem;
 }
 
 .trainer-card p {
@@ -66,4 +63,32 @@
 
 .trainer-card strong {
     color: #ff8a50;
+}
+
+/* 🔄 Mobile Optimization */
+@media (max-width: 600px) {
+    .user-trainer-list {
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    .trainer-card {
+        padding: 1rem;
+    }
+
+    .trainer-card img {
+        height: 160px;
+    }
+
+    .user-trainer-list h2 {
+        font-size: 1.5rem;
+    }
+
+    .trainer-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .trainer-card p {
+        font-size: 0.85rem;
+    }
 }
