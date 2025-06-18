@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+
 import '../styles/RecommendedClasses.css';
 
 const RecommendedClasses = () => {
     const [recommendations, setRecommendations] = useState([]);
-    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchRecommendations = async () => {
             try {
@@ -25,9 +25,7 @@ const RecommendedClasses = () => {
         fetchRecommendations();
     }, []);
 
-    const handleCheckout = () => {
-        navigate('/user/availability');
-    };
+
     return (
         <div className="recommendation-container">
             <h3>🔥 Recommended Fitness Classes</h3>

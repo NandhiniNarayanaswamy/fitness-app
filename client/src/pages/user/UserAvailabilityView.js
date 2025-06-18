@@ -38,28 +38,40 @@ const UserAvailabilityView = () => {
         if (email) setUserEmail(email);
     }, []);
 
+    // ✅ Updated function to safely handle malformed or short time formats
     const isPastSession = (date, timeSlot) => {
+        if (!date || !timeSlot) return true;
+
         const now = new Date();
         const sessionDate = new Date(date);
 
-        if (!timeSlot || !date) return true;
+        try {
+            let hour = 0;
+            let minute = 0;
 
-        // Handle timeSlot like "06:30 PM"
-        const [time, meridian] = timeSlot.split(' ');
-        let [hour, minute] = time.split(':').map(Number);
+            if (timeSlot.includes('AM') || timeSlot.includes('PM')) {
+                const [time, meridian] = timeSlot.trim().split(' ');
+                [hour, minute] = time.split(':').map(Number);
+                if (meridian === 'PM' && hour !== 12) hour += 12;
+                if (meridian === 'AM' && hour === 12) hour = 0;
+            } else {
+                // fallback if only hour is present like "10"
+                hour = parseInt(timeSlot);
+                if (isNaN(hour)) return true;
+            }
 
-        if (meridian === 'PM' && hour !== 12) hour += 12;
-        if (meridian === 'AM' && hour === 12) hour = 0;
-
-        sessionDate.setHours(hour, minute, 0, 0);
-
-        return sessionDate <= now;
+            sessionDate.setHours(hour, minute || 0, 0, 0);
+            return sessionDate <= now;
+        } catch (e) {
+            console.warn('Invalid timeSlot format:', timeSlot);
+            return true;
+        }
     };
 
     useEffect(() => {
         let filtered = slots;
 
-        // Filter out past sessions first
+        // ✅ Exclude past sessions safely
         filtered = filtered.filter(slot => !isPastSession(slot.date, slot.timeSlot));
 
         if (filterType) {
