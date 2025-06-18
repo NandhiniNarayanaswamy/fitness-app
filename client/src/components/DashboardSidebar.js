@@ -35,7 +35,7 @@ const DashboardSidebar = ({ role = 'user', name = 'User' }) => {
         { to: `${basePath}/availability`, icon: <FaCalendarAlt />, label: 'Classes' },
         { to: `${basePath}/bookings`, icon: <FaHistory />, label: 'Booking History' },
         { to: `${basePath}/feedbacks`, icon: <FaCommentDots />, label: 'Feedback' },
-        { to: `${basePath}/profile`, icon: <FaUserPlus />, label: 'Create Profile' },
+        { to: `${basePath}/profile`, icon: <FaUserPlus />, label: 'Profile' },
         { to: `${basePath}/myprofile`, icon: <FaIdBadge />, label: 'My Profile' },
     ];
 
