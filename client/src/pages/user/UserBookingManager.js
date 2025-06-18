@@ -61,29 +61,38 @@ const UserBookingManager = () => {
     const handleRescheduleSubmit = async () => {
         if (!newScheduleId) return;
 
-        // ✅ Prevent double booking
-        const alreadyBooked = bookings.some(b =>
-            b.scheduleId._id === newScheduleId && b.status !== 'cancelled'
-        );
-
-        if (alreadyBooked) {
-            alert('You have already booked this time slot.');
-            return;
-        }
-
         try {
-            const res = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/${rescheduleId}`, {
+            // ✅ Fetch all bookings again for latest data
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/user/${userEmail}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const userBookings = res.data;
+
+            // ✅ Prevent selecting already booked slot (not cancelled)
+            const alreadyBooked = userBookings.some(b =>
+                b.scheduleId?._id === newScheduleId && b.status !== 'cancelled'
+            );
+
+            if (alreadyBooked) {
+                alert('⚠️ You have already booked this time slot.');
+                return;
+            }
+
+            // ✅ Proceed with rescheduling
+            const updateRes = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/${rescheduleId}`, {
                 scheduleId: newScheduleId
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            setBookings(bookings.map(b => b._id === res.data._id ? res.data : b));
+            setBookings(bookings.map(b => b._id === updateRes.data._id ? updateRes.data : b));
             setRescheduleId(null);
             setNewScheduleId('');
             setAvailableSlots([]);
         } catch (err) {
             console.error('Reschedule failed:', err);
+            alert('❌ Reschedule failed. Please try again.');
         }
     };
 
