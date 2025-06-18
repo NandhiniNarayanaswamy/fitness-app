@@ -84,7 +84,6 @@
 .nav-link.active,
 .logout-btn:hover {
     background-color: rgba(255, 69, 0, 0.2);
-    /* red-orange transparent hover */
     color: #fff;
 }
 
@@ -100,25 +99,38 @@
     font-size: 18px;
 }
 
-/* === Mobile Styling === */
+/* === Hamburger Menu Button === */
 .hamburger {
     display: none;
 }
 
 @media (max-width: 768px) {
+
+    /* Hide sidebar by default */
     .sidebar {
         transform: translateX(-100%);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 260px;
+        height: 100vh;
+        background-color: #000;
+        z-index: 1000;
+        transition: transform 0.3s ease-in-out;
     }
 
+    /* Show sidebar when toggled open */
     .sidebar.open {
         transform: translateX(0);
     }
 
+    /* Adjust main content on mobile */
     .dashboard-main {
         margin-left: 0;
         padding-top: 70px;
     }
 
+    /* Show hamburger */
     .hamburger {
         display: block;
         position: fixed;
