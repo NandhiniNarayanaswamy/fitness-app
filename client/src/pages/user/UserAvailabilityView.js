@@ -66,13 +66,34 @@ const UserAvailabilityView = () => {
         setFilteredSlots(filtered);
     }, [filterType, filterDuration, filterTimeSlot, filterDate, slots]);
 
-    const handleBooking = (slot) => {
+    const handleBooking = async (slot) => {
         if (!userEmail) {
             alert('User not logged in.');
             return;
         }
-        setSelectedSlot(slot);
-        setShowPayment(true);
+
+        try {
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/user/${userEmail}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            });
+
+            const userBookings = res.data;
+
+            const alreadyBooked = userBookings.some(
+                b => b.scheduleId?._id === slot._id && b.status !== 'cancelled'
+            );
+
+            if (alreadyBooked) {
+                alert('⚠️ You have already booked this class.');
+                return;
+            }
+
+            setSelectedSlot(slot);
+            setShowPayment(true);
+        } catch (error) {
+            console.error('Booking check failed:', error);
+            alert('❌ Could not verify existing bookings. Please try again.');
+        }
     };
 
     const uniqueTypes = [...new Set(slots.map(slot => slot.type))];
@@ -145,7 +166,6 @@ const UserAvailabilityView = () => {
                                 <button onClick={() => handleBooking(slot)}>Book</button>
                             </div>
                         </li>
-
                     ))
                 ) : (
                     <li>No classes match the filter criteria.</li>
@@ -164,7 +184,7 @@ const UserAvailabilityView = () => {
                                     alert('Booking successful and payment completed!');
                                     setShowPayment(false);
                                     setSelectedSlot(null);
-                                    fetchSlots();
+                                    fetchSlots(); // refresh slot list
                                 }}
                             />
                         </Elements>
