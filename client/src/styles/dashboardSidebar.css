@@ -1,33 +1,33 @@
-/* Sidebar Layout */
+/* === Sidebar Base Layout === */
 .sidebar {
-    width: 250px;
+    width: 260px;
     height: 100vh;
     background-color: #000;
     color: #fff;
-    padding: 20px 15px;
-    display: flex;
-    flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
-    /* Ensures scroll if content overflows */
     z-index: 1000;
+    transition: transform 0.3s ease;
 }
 
+/* === Main Layout === */
 .dashboard-wrapper {
     display: flex;
     min-height: 100vh;
-
 }
 
 .dashboard-main {
     flex: 1;
-    margin-left: 250px;
-    /* reserve space for sidebar */
+    margin-left: 260px;
     padding: 20px;
+    background-color: #121212;
     color: #fff;
-
+    transition: margin-left 0.3s ease;
 }
 
 .dashboard-page-title {
@@ -35,7 +35,7 @@
     margin-bottom: 20px;
 }
 
-/* Logo Styling */
+/* === Logo === */
 .logo h2 {
     font-size: 24px;
     color: #fff;
@@ -46,14 +46,14 @@
     color: #ff4500;
 }
 
-/* Welcome Message */
+/* === Welcome Message === */
 .welcome-message {
-    font-size: 15px;
-    color: #ccc;
+    font-size: 14px;
+    color: #aaa;
     margin-bottom: 30px;
 }
 
-/* Navigation */
+/* === Nav Links === */
 .nav-links {
     flex: 1;
 }
@@ -64,84 +64,47 @@
     margin: 0;
 }
 
-.nav-links li {
-    margin-bottom: 5px;
-}
-
-/* Link Styling */
-.nav-link {
+.nav-link,
+.logout-btn {
     display: flex;
     align-items: center;
-    padding: 10px 8px;
+    gap: 10px;
+    padding: 10px;
     color: #ccc;
     text-decoration: none;
     font-size: 16px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.nav-link:hover {
-    background-color: #1a1a1a;
+.nav-link:hover,
+.nav-link.active,
+.logout-btn:hover {
+    background-color: rgba(255, 69, 0, 0.2);
+    /* red-orange transparent hover */
     color: #fff;
 }
 
-/* Active Link Styling */
-.nav-link.active {
+.nav-link.active .icon,
+.nav-link.active .label,
+.logout-btn:hover .icon {
     color: #ff4500;
 }
 
-/* Icons */
-.nav-link .icon {
-    margin-right: 10px;
+.nav-link .icon,
+.logout-btn .icon {
     color: #ff4500;
     font-size: 18px;
 }
 
-.nav-link .label {
-    white-space: nowrap;
+/* === Mobile Styling === */
+.hamburger {
+    display: none;
 }
 
-/* Logout Button Styling */
-.logout-btn {
-    background: none;
-    border: none;
-    color: #ccc;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 8px;
-    width: 100%;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    text-align: left;
-}
-
-.logout-btn:hover {
-    background-color: #1a1a1a;
-    color: #fff;
-}
-
-.logout-btn .icon {
-    color: #ff4500;
-}
-
-/* Basic Sidebar Styling */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 260px;
-    height: 100%;
-    background: rgba(30, 30, 60, 0.9);
-    backdrop-filter: blur(10px);
-    color: #fff;
-    padding: 20px;
-    transition: transform 0.3s ease;
-    z-index: 1000;
-}
-
-/* Hide sidebar by default on mobile */
 @media (max-width: 768px) {
     .sidebar {
         transform: translateX(-100%);
@@ -151,63 +114,21 @@
         transform: translateX(0);
     }
 
+    .dashboard-main {
+        margin-left: 0;
+        padding-top: 70px;
+    }
+
     .hamburger {
+        display: block;
         position: fixed;
         top: 20px;
         left: 20px;
         background: transparent;
-        color: white;
+        color: #fff;
         font-size: 24px;
         border: none;
         z-index: 1100;
+        cursor: pointer;
     }
-}
-
-.hamburger {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .hamburger {
-        display: block;
-    }
-}
-
-.nav-links ul {
-    list-style: none;
-    padding: 0;
-}
-
-.nav-link,
-.logout-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0;
-    color: #ccc;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    background: transparent;
-    border: none;
-    width: 100%;
-    font-size: 16px;
-}
-
-.nav-link:hover,
-.nav-link.active,
-.logout-btn:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-}
-
-.logo h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #fff;
-}
-
-.welcome-message {
-    margin-bottom: 20px;
-    color: #aaa;
 }

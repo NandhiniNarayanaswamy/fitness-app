@@ -21,21 +21,24 @@ const DashboardSidebar = ({ role = 'user', name = 'User' }) => {
         navigate('/');
     };
 
+    const basePath = role === 'trainer' ? '/trainer/dashboard' : '/user/dashboard';
+
     const links = role === 'trainer' ? [
-        { to: '', icon: <FaTachometerAlt />, label: 'Dashboard', exact: true },
-        { to: 'profile-form', icon: <FaUserPlus />, label: 'Create Profile' },
-        { to: 'availability', icon: <FaCalendarAlt />, label: 'Your Availability' },
-        { to: 'bookings', icon: <FaVideo />, label: 'Your Schedules' },
-        { to: 'feedback', icon: <FaCommentDots />, label: 'Respond to Feedback' },
+        { to: `${basePath}`, icon: <FaTachometerAlt />, label: 'Dashboard', exact: true },
+        { to: `${basePath}/profile-form`, icon: <FaUserPlus />, label: 'Create Profile' },
+        { to: `${basePath}/availability`, icon: <FaCalendarAlt />, label: 'Your Availability' },
+        { to: `${basePath}/bookings`, icon: <FaVideo />, label: 'Your Schedules' },
+        { to: `${basePath}/feedback`, icon: <FaCommentDots />, label: 'Respond to Feedback' },
     ] : [
-        { to: '', icon: <FaTachometerAlt />, label: 'Dashboard', exact: true },
-        { to: 'trainers', icon: <FaUsers />, label: 'Trainers' },
-        { to: 'availability', icon: <FaCalendarAlt />, label: 'Classes' },
-        { to: 'bookings', icon: <FaHistory />, label: 'Booking History' },
-        { to: 'feedbacks', icon: <FaCommentDots />, label: 'Feedback' },
-        { to: 'profile', icon: <FaUserPlus />, label: 'Create Profile' },
-        { to: 'myprofile', icon: <FaIdBadge />, label: 'My Profile' },
+        { to: `${basePath}`, icon: <FaTachometerAlt />, label: 'Dashboard', exact: true },
+        { to: `${basePath}/trainers`, icon: <FaUsers />, label: 'Trainers' },
+        { to: `${basePath}/availability`, icon: <FaCalendarAlt />, label: 'Classes' },
+        { to: `${basePath}/bookings`, icon: <FaHistory />, label: 'Booking History' },
+        { to: `${basePath}/feedbacks`, icon: <FaCommentDots />, label: 'Feedback' },
+        { to: `${basePath}/profile`, icon: <FaUserPlus />, label: 'Create Profile' },
+        { to: `${basePath}/myprofile`, icon: <FaIdBadge />, label: 'My Profile' },
     ];
+
 
     return (
         <aside className="sidebar">
