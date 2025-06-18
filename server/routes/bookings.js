@@ -1,205 +1,107 @@
 const express = require('express');
 const router = express.Router();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const Booking = require('../models/Booking');
-const Availability = require('../models/Availability');
-const sendMail = require('../utils/mailer');
+const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('../utils/cloudinary');
+const TrainerProfile = require('../models/TrainerProfile');
+const path = require('path');
 
-// ✅ Create a new booking with duplicate & past-date check
-router.post('/', async (req, res) => {
-    const { userId, userEmail, trainerId, scheduleId } = req.body;
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'fitbook/trainers',
+        allowed_formats: ['jpg', 'jpeg', 'png'],
+        public_id: (req, file) => {
+            const nameWithoutExt = path.parse(file.originalname).name;
+            return Date.now() + '-' + nameWithoutExt;
+        },
+    },
+});
 
+const upload = multer({ storage });
+
+// ✅ Create new profile
+router.post('/upload', upload.single('photo'), async (req, res) => {
     try {
-        const schedule = await Availability.findById(scheduleId);
-        if (!schedule) {
-            return res.status(404).json({ message: 'Schedule not found' });
-        }
+        const { name, qualifications, expertise, specialization, message, email } = req.body;
+        const photo = req.file?.secure_url || req.file?.path || '';
 
-        // 🔒 Prevent booking for past classes
-        const now = new Date();
-        const scheduleDate = new Date(schedule.date);
-        scheduleDate.setHours(0, 0, 0, 0);
-        now.setHours(0, 0, 0, 0);
-        if (scheduleDate < now) {
-            return res.status(400).json({ message: 'Cannot book a past class.' });
-        }
-
-        // Duplicate booking check
-        const existingBooking = await Booking.findOne({
-            userEmail,
-            scheduleId,
-            status: { $ne: 'cancelled' }
+        const newProfile = new TrainerProfile({
+            name,
+            qualifications,
+            expertise,
+            specialization,
+            photo,
+            message,
+            email,
         });
 
-        if (existingBooking) {
-            return res.status(400).json({ message: 'You have already booked this session.' });
-        }
+        await newProfile.save();
 
-        const booking = await Booking.create({
-            userId,
-            userEmail,
-            trainerId,
-            scheduleId
-        });
-
-        await sendMail(
-            userEmail,
-            'Booking Confirmed',
-            `You have booked a ${schedule.type} class (${schedule.duration}) at ${schedule.timeSlot}.`
-        );
-
-        res.status(201).json(booking);
-    } catch (err) {
-        console.error('Booking failed:', err);
-        res.status(500).json({ message: 'Booking failed', error: err });
+        console.log("✅ New trainer profile created:", newProfile);
+        res.status(201).json({ success: true, profile: newProfile });
+    } catch (error) {
+        console.error("❌ Error uploading trainer profile:", error);
+        res.status(500).json({ success: false, message: 'Server Error', error: error.message });
     }
 });
 
-// ✅ Create Stripe Payment Intent
-router.post('/payment/create-payment-intent', async (req, res) => {
-    const { amount, userEmail, trainerId, scheduleId } = req.body;
-
-    if (!amount || typeof amount !== 'number' || amount <= 0) {
-        return res.status(400).json({ error: 'Invalid amount provided' });
-    }
-
+// ✅ Get all profiles
+router.get('/all', async (req, res) => {
     try {
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(amount * 100),
-            currency: 'inr',
-            metadata: {
-                userEmail: userEmail || 'unknown',
-                trainerId: trainerId || 'unknown',
-                scheduleId: scheduleId || 'unknown',
-            }
-        });
-
-        res.json({ clientSecret: paymentIntent.client_secret });
-    } catch (err) {
-        console.error('Payment intent error:', err);
-        res.status(500).json({ error: 'Payment intent creation failed' });
+        const profiles = await TrainerProfile.find();
+        res.status(200).json({ success: true, profiles });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server Error', error: error.message });
     }
 });
 
-// ✅ Get bookings for a specific user
-router.get('/user/:email', async (req, res) => {
+// ✅ Get single profile by email
+router.get('/:email', async (req, res) => {
     try {
-        const bookings = await Booking.find({ userEmail: req.params.email })
-            .populate({
-                path: 'scheduleId',
-                populate: { path: 'trainer', select: 'name' }
-            });
-        res.json(bookings);
-    } catch (err) {
-        console.error('Failed to fetch bookings:', err);
-        res.status(500).json({ message: 'Failed to fetch bookings' });
+        const profile = await TrainerProfile.findOne({ email: req.params.email });
+        if (!profile) {
+            return res.status(404).json({ success: false, message: 'Profile not found' });
+        }
+        res.status(200).json(profile);
+    } catch (error) {
+        console.error("❌ Error fetching trainer profile:", error);
+        res.status(500).json({ success: false, message: 'Server Error', error: error.message });
     }
 });
 
-// ✅ Reschedule a booking
-router.put('/:id', async (req, res) => {
+// ✅ Update profile by ID
+router.put('/update/:id', upload.single('photo'), async (req, res) => {
     try {
-        const { scheduleId } = req.body;
-        const updated = await Booking.findByIdAndUpdate(
+        const { name, qualifications, expertise, specialization, message, email } = req.body;
+        const updates = {
+            name,
+            qualifications,
+            expertise,
+            specialization,
+            message,
+            email,
+        };
+
+        if (req.file) {
+            updates.photo = req.file.secure_url || req.file.path;
+        }
+
+        const updatedProfile = await TrainerProfile.findByIdAndUpdate(
             req.params.id,
-            { scheduleId, status: 'rescheduled' },
+            updates,
             { new: true }
-        ).populate('scheduleId');
-
-        await sendMail(
-            updated.userEmail,
-            'Booking Rescheduled',
-            `Your class has been rescheduled to ${updated.scheduleId.timeSlot} (${updated.scheduleId.type}).`
         );
 
-        res.json(updated);
-    } catch (err) {
-        res.status(500).json({ message: 'Failed to reschedule' });
-    }
-});
-
-// ✅ Cancel a booking
-router.delete('/:id', async (req, res) => {
-    try {
-        const booking = await Booking.findByIdAndUpdate(
-            req.params.id,
-            { status: 'cancelled' },
-            { new: true }
-        ).populate('scheduleId');
-
-        await sendMail(
-            booking.userEmail,
-            'Booking Cancelled',
-            `Your class for ${booking.scheduleId.timeSlot} (${booking.scheduleId.type}) has been cancelled.`
-        );
-
-        res.json({ message: 'Booking cancelled', booking });
-    } catch (err) {
-        res.status(500).json({ message: 'Cancellation failed' });
-    }
-});
-
-// ✅ Get bookings for a specific trainer
-router.get('/trainer/:id', async (req, res) => {
-    try {
-        const bookings = await Booking.find({ trainerId: req.params.id })
-            .populate('scheduleId')
-            .populate('userId', 'name email');
-
-        res.json(bookings);
-    } catch (err) {
-        console.error('Failed to fetch trainer bookings:', err);
-        res.status(500).json({ message: 'Failed to fetch trainer bookings' });
-    }
-});
-
-// ✅ Confirm booking after payment with duplicate & date check
-router.post('/payment/confirm-booking', async (req, res) => {
-    const { userId, userEmail, trainerId, scheduleId } = req.body;
-
-    try {
-        const schedule = await Availability.findById(scheduleId);
-        if (!schedule) {
-            return res.status(404).json({ message: 'Schedule not found' });
+        if (!updatedProfile) {
+            return res.status(404).json({ success: false, message: 'Profile not found' });
         }
 
-        // 🔒 Prevent booking for past classes
-        const now = new Date();
-        const scheduleDate = new Date(schedule.date);
-        scheduleDate.setHours(0, 0, 0, 0);
-        now.setHours(0, 0, 0, 0);
-        if (scheduleDate < now) {
-            return res.status(400).json({ message: 'Cannot book a past class.' });
-        }
-
-        // Duplicate booking check
-        const existingBooking = await Booking.findOne({
-            userEmail,
-            scheduleId,
-            status: { $ne: 'cancelled' }
-        });
-
-        if (existingBooking) {
-            return res.status(400).json({ message: 'You have already booked this session.' });
-        }
-
-        const booking = await Booking.create({
-            userId,
-            userEmail,
-            trainerId,
-            scheduleId
-        });
-
-        await sendMail(
-            userEmail,
-            'Booking Confirmed',
-            `You have booked a ${schedule.type} class (${schedule.duration}) at ${schedule.timeSlot}.`
-        );
-
-        res.status(201).json(booking);
-    } catch (err) {
-        console.error('Booking confirmation failed:', err);
-        res.status(500).json({ message: 'Booking confirmation failed' });
+        console.log("✅ Trainer profile updated:", updatedProfile);
+        res.status(200).json({ success: true, profile: updatedProfile });
+    } catch (error) {
+        console.error("❌ Error updating trainer profile:", error);
+        res.status(500).json({ success: false, message: 'Server Error', error: error.message });
     }
 });
 
