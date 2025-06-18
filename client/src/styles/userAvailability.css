@@ -215,6 +215,30 @@ body {
     transform: scale(1.05);
 }
 
+.payment-modal input[type="text"],
+.payment-modal input[type="number"],
+.payment-modal input[type="tel"],
+.payment-modal input[type="email"],
+.payment-modal input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    margin: 10px 0;
+    background: rgba(20, 20, 20, 0.95);
+    /* darker input background for contrast */
+    border: 1px solid rgba(255, 69, 0, 0.5);
+    /* red-orange border */
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 12px;
+    outline: none;
+    transition: border 0.3s ease;
+}
+
+.payment-modal input:focus {
+    border-color: #ff4500;
+    box-shadow: 0 0 8px rgba(255, 69, 0, 0.4);
+}
+
 /* Modal Animations */
 @keyframes fadeIn {
     from {

@@ -41,10 +41,7 @@ const RecommendedClasses = () => {
                             <h4>🏋️ {rec.type}</h4>
 
                             <p><strong>Trainer:</strong> {rec.trainer?.name}</p>
-                            <p><strong>Duration:</strong> {rec.duration} mins</p>
-                            <p><strong>Time Slot:</strong> {rec.timeSlot}</p>
-                            <p><strong>Date:</strong> {new Date(rec.date).toLocaleDateString()}</p>
-                            <p><strong>Price:</strong> ₹{rec.price}</p>
+
                             <button
                                 className="checkout-button"
                                 onClick={handleCheckout}

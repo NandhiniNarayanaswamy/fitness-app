@@ -93,17 +93,20 @@ const UserBookingManager = () => {
         }
     };
 
-    // ✅ Utility to check if session is in the past
-    const isPastSession = (date, timeSlot) => {
+    // ✅ Updated to include session duration + 15 minutes buffer
+    const isPastSession = (date, timeSlot, duration) => {
         const now = new Date();
         const sessionDate = new Date(date);
 
-        if (!timeSlot || !date) return false;
+        if (!timeSlot || !date || !duration) return false;
 
         const [startHour, startMinute] = timeSlot.split('-')[0].split(':');
-        sessionDate.setHours(+startHour, +startMinute, 0);
+        sessionDate.setHours(+startHour, +startMinute, 0, 0);
 
-        return sessionDate < now;
+        const totalMinutes = parseInt(duration) + 15; // session duration + 15 min buffer
+        const sessionEndWithBuffer = new Date(sessionDate.getTime() + totalMinutes * 60000);
+
+        return now >= sessionEndWithBuffer;
     };
 
     return (
@@ -117,15 +120,16 @@ const UserBookingManager = () => {
                     const trainer = schedule?.trainer;
                     return (
                         <div key={b._id} className="booking-card">
-                            <p><strong>Class:</strong> {schedule?.type} — {schedule?.duration} — {schedule?.timeSlot}</p>
+                            <p><strong>Class:</strong> {schedule?.type} — {schedule?.duration} mins — {schedule?.timeSlot}</p>
                             <p><strong>Date:</strong> {schedule?.date ? new Date(schedule.date).toLocaleDateString() : 'N/A'}</p>
                             <p><strong>Trainer:</strong> {trainer?.name || 'N/A'}</p>
                             <p><strong>Status:</strong> {b.status}</p>
 
                             <div className="booking-buttons">
-                                {!b.feedback && b.status !== 'cancelled' && isPastSession(schedule?.date, schedule?.timeSlot) && (
-                                    <button onClick={() => setShowFeedback(b)}>Give Feedback</button>
-                                )}
+                                {!b.feedback && b.status !== 'cancelled' &&
+                                    isPastSession(schedule?.date, schedule?.timeSlot, schedule?.duration) && (
+                                        <button onClick={() => setShowFeedback(b)}>Give Feedback</button>
+                                    )}
                                 {b.status !== 'cancelled' && (
                                     <>
                                         <button onClick={() => handleRescheduleClick(b)}>Reschedule</button>
@@ -171,7 +175,7 @@ const UserBookingManager = () => {
                             <option value="">-- Select Slot --</option>
                             {availableSlots.map(slot => (
                                 <option key={slot._id} value={slot._id}>
-                                    {slot.type} — {slot.duration} — {slot.timeSlot} ({new Date(slot.date).toLocaleDateString()})
+                                    {slot.type} — {slot.duration} mins — {slot.timeSlot} ({new Date(slot.date).toLocaleDateString()})
                                 </option>
                             ))}
                         </select>

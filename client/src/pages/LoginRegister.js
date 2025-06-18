@@ -1,4 +1,3 @@
-// src/pages/LoginRegister.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/LoginRegister.css'; // Style this as needed
@@ -20,39 +19,62 @@ const LoginRegister = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { role, name, email, password } = formData;
-
         const baseURL = process.env.REACT_APP_BACKEND_URL;
-        const endpoint = isRegister
-            ? (role === 'trainer' ? `${baseURL}/api/trainers/register` : `${baseURL}/api/users/register`)
-            : (role === 'trainer' ? `${baseURL}/api/trainers/login` : `${baseURL}/api/users/login`);
-
-
-        const payload = isRegister ? { name, email, password } : { email, password };
 
         try {
-            const res = await fetch(endpoint, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
-            });
+            if (isRegister) {
+                const registerEndpoint =
+                    role === 'trainer'
+                        ? `${baseURL}/api/trainers/register`
+                        : `${baseURL}/api/users/register`;
 
-            const data = await res.json();
-            if (!res.ok) return alert(data.message);
+                const res = await fetch(registerEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password }),
+                });
 
-            if (!isRegister) {
-                // Save auth info in localStorage
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('role', data.role);
-                localStorage.setItem('id', role === 'trainer' ? data.trainerId : data.userId);
-                localStorage.setItem('email', data.email);
-                localStorage.setItem('name', data.name);
+                const data = await res.json();
+                if (!res.ok) return alert(data.message);
 
-                // Navigate based on role
-                if (role === 'trainer') navigate('/trainer/dashboard');
-                else navigate('/user/dashboard');
-            } else {
                 alert('Registration successful! You can now log in.');
                 setIsRegister(false);
+            } else {
+                // Try trainer login
+                const trainerRes = await fetch(`${baseURL}/api/trainers/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+                const trainerData = await trainerRes.json();
+
+                if (trainerRes.ok) {
+                    localStorage.setItem('token', trainerData.token);
+                    localStorage.setItem('role', trainerData.role);
+                    localStorage.setItem('id', trainerData.trainerId);
+                    localStorage.setItem('email', trainerData.email);
+                    localStorage.setItem('name', trainerData.name);
+                    return navigate('/trainer/dashboard');
+                }
+
+                // If trainer login fails, try user login
+                const userRes = await fetch(`${baseURL}/api/users/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+                const userData = await userRes.json();
+
+                if (userRes.ok) {
+                    localStorage.setItem('token', userData.token);
+                    localStorage.setItem('role', userData.role);
+                    localStorage.setItem('id', userData.userId);
+                    localStorage.setItem('email', userData.email);
+                    localStorage.setItem('name', userData.name);
+                    return navigate('/user/dashboard');
+                }
+
+                return alert(trainerData.message || userData.message || 'Invalid login credentials.');
             }
         } catch (err) {
             console.error('Auth error:', err);
@@ -65,14 +87,14 @@ const LoginRegister = () => {
             <form onSubmit={handleSubmit}>
                 <h2>{isRegister ? 'Register' : 'Login'}</h2>
 
-                <label>Role</label>
-                <select name="role" value={formData.role} onChange={handleChange}>
-                    <option value="user">User</option>
-                    <option value="trainer">Trainer</option>
-                </select>
-
                 {isRegister && (
                     <>
+                        <label>Role</label>
+                        <select name="role" value={formData.role} onChange={handleChange}>
+                            <option value="user">User</option>
+                            <option value="trainer">Trainer</option>
+                        </select>
+
                         <label>Name</label>
                         <input
                             type="text"
