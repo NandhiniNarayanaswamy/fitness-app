@@ -42,12 +42,7 @@ const RecommendedClasses = () => {
 
                             <p><strong>Trainer:</strong> {rec.trainer?.name}</p>
 
-                            <button
-                                className="checkout-button"
-                                onClick={handleCheckout}
-                            >
-                                Checkout
-                            </button>
+
                         </div>
                     ))}
 
