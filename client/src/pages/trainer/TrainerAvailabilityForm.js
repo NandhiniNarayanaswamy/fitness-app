@@ -20,12 +20,33 @@ const TrainerAvailabilityForm = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    // ✅ Validates full datetime like backend
+    const isPastDateTime = (date, timeSlot) => {
+        if (!date || !timeSlot) return true;
+
+        const [hourStr, minuteStr, meridian] = timeSlot.trim().split(/:| /);
+        let hours = parseInt(hourStr, 10);
+        const minutes = parseInt(minuteStr, 10);
+
+        if (meridian === 'PM' && hours !== 12) hours += 12;
+        if (meridian === 'AM' && hours === 12) hours = 0;
+
+        const selectedDateTime = new Date(date);
+        selectedDateTime.setHours(hours, minutes, 0, 0);
+
+        return selectedDateTime <= new Date();
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // ✅ Date validation to avoid "Invalid time value" errors
         if (!form.date || isNaN(new Date(form.date))) {
-            alert('Please enter a valid date');
+            alert('❌ Please enter a valid date');
+            return;
+        }
+
+        if (isPastDateTime(form.date, form.timeSlot)) {
+            alert('❌ Cannot set availability in the past');
             return;
         }
 
@@ -43,13 +64,13 @@ const TrainerAvailabilityForm = () => {
             setAvailabilities(res.data);
         } catch (error) {
             console.error('Failed to add availability:', error);
+            alert(error.response?.data?.message || 'Error adding availability.');
         }
     };
 
     const handleDelete = async (id) => {
         try {
             await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/availability/${id}`, {
-
                 headers: { Authorization: token }
             });
 
@@ -84,7 +105,7 @@ const TrainerAvailabilityForm = () => {
             <form className="trainer-form" onSubmit={handleSubmit}>
                 <input
                     name="type"
-                    placeholder="Type (e.g., yoga)"
+                    placeholder="Type (e.g., Yoga)"
                     onChange={handleChange}
                     value={form.type}
                     required
@@ -98,7 +119,7 @@ const TrainerAvailabilityForm = () => {
                 />
                 <input
                     name="timeSlot"
-                    placeholder="Time Slot (e.g., 10:00 AM)"
+                    placeholder="Time Slot (e.g., 06:30 PM)"
                     onChange={handleChange}
                     value={form.timeSlot}
                     required
