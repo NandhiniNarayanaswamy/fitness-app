@@ -41,12 +41,13 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISH_KEY);
 
 // Public layout wrapper
 const WithLayout = ({ children }) => (
-  <>
+  <div className="app-wrapper">
     <Navbar />
-    {children}
+    <div style={{ flex: 1 }}>{children}</div> {/* Ensures footer pushes to bottom */}
     <Footer />
-  </>
+  </div>
 );
+
 
 function App() {
   return (

@@ -14,3 +14,17 @@ html {
 footer {
     margin-top: auto;
 }
+
+/* App.css or a global style file */
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+}
+
+.app-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
