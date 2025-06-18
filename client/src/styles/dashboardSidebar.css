@@ -74,16 +74,20 @@
     text-decoration: none;
     font-size: 16px;
     border: none;
-    background: none;
+    background-color: transparent;
+    /* ensure consistent background */
     width: 100%;
     border-radius: 6px;
     transition: background-color 0.3s ease, color 0.3s ease;
+    box-sizing: border-box;
+    /* prevent box shift on hover */
 }
 
 .nav-link:hover,
 .nav-link.active,
 .logout-btn:hover {
     background-color: rgba(255, 69, 0, 0.2);
+    /* smooth fixed highlight */
     color: #fff;
 }
 
