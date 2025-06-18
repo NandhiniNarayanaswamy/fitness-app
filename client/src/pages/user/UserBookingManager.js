@@ -47,7 +47,24 @@ const UserBookingManager = () => {
     const fetchAvailableSlots = async () => {
         try {
             const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/availability/all`);
-            setAvailableSlots(res.data);
+            const now = new Date();
+
+            const futureSlots = res.data.filter(slot => {
+                if (!slot.date || !slot.timeSlot) return false;
+
+                const sessionDate = new Date(slot.date);
+                const [time, meridian] = slot.timeSlot.split(' ');
+                let [hour, minute] = time.split(':').map(Number);
+
+                if (meridian === 'PM' && hour !== 12) hour += 12;
+                if (meridian === 'AM' && hour === 12) hour = 0;
+
+                sessionDate.setHours(hour, minute, 0, 0);
+
+                return sessionDate > now;
+            });
+
+            setAvailableSlots(futureSlots);
         } catch (err) {
             console.error('Error fetching availability:', err);
         }
@@ -146,7 +163,6 @@ const UserBookingManager = () => {
                                 <button onClick={() => handleRescheduleClick(b)}>Reschedule</button>
                                 <button onClick={() => handleCancel(b._id)}>Cancel</button>
                             </div>
-
                         </div>
                     );
                 })
@@ -183,15 +199,28 @@ const UserBookingManager = () => {
                             }}
                         >
                             <option value="">-- Select Slot --</option>
-                            {availableSlots.map(slot => (
-                                <option key={slot._id} value={slot._id}>
-                                    {slot.type} — {slot.duration} mins — {slot.timeSlot} ({new Date(slot.date).toLocaleDateString()})
-                                </option>
-                            ))}
+                            {availableSlots.length === 0 ? (
+                                <option disabled>No future slots available</option>
+                            ) : (
+                                availableSlots.map(slot => (
+                                    <option key={slot._id} value={slot._id}>
+                                        {slot.type} — {slot.duration} mins — {slot.timeSlot} ({new Date(slot.date).toLocaleDateString()})
+                                    </option>
+                                ))
+                            )}
                         </select>
 
                         <div style={{ marginTop: '15px', display: 'flex', gap: '10px' }}>
-                            <button onClick={handleRescheduleSubmit}>Confirm</button>
+                            <button
+                                onClick={handleRescheduleSubmit}
+                                disabled={!newScheduleId}
+                                style={{
+                                    opacity: newScheduleId ? 1 : 0.5,
+                                    cursor: newScheduleId ? 'pointer' : 'not-allowed'
+                                }}
+                            >
+                                Confirm
+                            </button>
                             <button onClick={() => setRescheduleId(null)}>Cancel</button>
                         </div>
                     </div>
