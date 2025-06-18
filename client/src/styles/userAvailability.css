@@ -104,50 +104,6 @@ body {
 }
 
 /* Payment Popup Modal */
-.payment-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(5px);
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-}
-
-.payment-modal {
-    background: rgba(30, 30, 30, 0.95);
-    padding: 30px;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-    color: #fff;
-    text-align: center;
-}
-
-.payment-modal h3 {
-    margin-bottom: 20px;
-    color: #ff4500;
-}
-
-.payment-modal button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #ff4500;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.payment-modal button:hover {
-    background-color: #e03e00;
-}
 
 .user-slot-list li.slot-card {
     display: flex;
@@ -206,6 +162,80 @@ body {
     border-top: 6px solid #aa7cff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
+}
+
+.payment-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.payment-modal {
+    background: rgba(36, 36, 36, 0.85);
+    border: 1px solid rgba(255, 69, 0, 0.3);
+    border-radius: 18px;
+    box-shadow: 0 0 30px rgba(255, 69, 0, 0.15);
+    padding: 35px 25px;
+    width: 95%;
+    max-width: 500px;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    animation: scaleIn 0.3s ease;
+    text-align: center;
+}
+
+.payment-modal h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #ff4500;
+}
+
+.payment-modal button {
+    margin-top: 25px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: transparent;
+    border: 2px solid #ff4500;
+    color: #ff4500;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-modal button:hover {
+    background-color: #ff4500;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* Modal Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes spin {
