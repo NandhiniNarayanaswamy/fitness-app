@@ -1,79 +1,42 @@
-import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import {
-    FaBars, FaTachometerAlt, FaUserPlus, FaCalendarAlt,
-    FaHistory, FaUsers, FaCommentDots, FaIdBadge,
-    FaSignOutAlt, FaVideo, FaTimes
-} from 'react-icons/fa';
-import '../styles/dashboardSidebar.css';
+// src/components/DashboardLayout.js
+import React, { useEffect, useState } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import DashboardSidebar from './DashboardSidebar';
+import '../styles/dashboardLayout.css';
 
-const DashboardSidebar = ({ role = 'user', name = 'User' }) => {
-    const navigate = useNavigate();
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+const DashboardLayout = ({ role }) => {
+    const name = localStorage.getItem('name') || (role === 'trainer' ? 'Trainer' : 'User');
+    const location = useLocation();
+    const [pageTitle, setPageTitle] = useState('Dashboard');
 
-    const handleLogout = () => {
-        localStorage.clear();
-        navigate('/');
-    };
+    useEffect(() => {
+        const routeTitles = {
+            '': 'Dashboard',
+            'trainers': 'Trainers',
+            'availability': role === 'trainer' ? 'My Schedule' : 'Classes',
+            'bookings': role === 'trainer' ? 'My Bookings' : 'Booking History',
+            'media': 'Upload Media',
+            'feedback': 'Feedback',
+            'feedbacks': 'Feedback',
+            'profile-form': 'Profile',
+            'profile': 'Create Profile',
+            'myprofile': 'My Profile',
+        };
 
-    const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
-    };
-
-    const links = role === 'trainer' ? [
-        { to: '', icon: <FaTachometerAlt />, label: 'Dashboard', exact: true },
-        { to: 'profile-form', icon: <FaUserPlus />, label: 'Create Profile' },
-        { to: 'availability', icon: <FaCalendarAlt />, label: 'Your Availability' },
-        { to: 'bookings', icon: <FaVideo />, label: 'Your Schedules' },
-        { to: 'feedback', icon: <FaCommentDots />, label: 'Respond to Feedback' },
-    ] : [
-        { to: '', icon: <FaTachometerAlt />, label: 'Dashboard', exact: true },
-        { to: 'trainers', icon: <FaUsers />, label: 'Trainers' },
-        { to: 'availability', icon: <FaCalendarAlt />, label: 'Classes' },
-        { to: 'bookings', icon: <FaHistory />, label: 'Booking History' },
-        { to: 'feedbacks', icon: <FaCommentDots />, label: 'Feedback' },
-        { to: 'profile', icon: <FaUserPlus />, label: 'Create Profile' },
-        { to: 'myprofile', icon: <FaIdBadge />, label: 'My Profile' },
-    ];
+        const pathSegments = location.pathname.split('/').filter(Boolean);
+        const lastSegment = pathSegments[pathSegments.length - 1] || '';
+        setPageTitle(routeTitles[lastSegment] || 'Dashboard');
+    }, [location.pathname, role]);
 
     return (
-        <>
-            <button className="hamburger" onClick={toggleSidebar}>
-                {isSidebarOpen ? <FaTimes /> : <FaBars />}
-            </button>
-
-            <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
-                <div className="logo">
-                    <h2>Fit<span>Book</span></h2>
-                </div>
-                <div className="welcome-message">Welcome, <strong>{name}</strong></div>
-
-                <nav className="nav-links">
-                    <ul>
-                        {links.map((link, index) => (
-                            <li key={index}>
-                                <NavLink
-                                    to={link.to}
-                                    className={({ isActive }) => isActive ? 'active nav-link' : 'nav-link'}
-                                    end={link.exact}
-                                    onClick={() => setIsSidebarOpen(false)}
-                                >
-                                    <span className="icon">{link.icon}</span>
-                                    <span className="label">{link.label}</span>
-                                </NavLink>
-                            </li>
-                        ))}
-                        <li>
-                            <button onClick={handleLogout} className="logout-btn">
-                                <span className="icon"><FaSignOutAlt /></span>
-                                <span className="label">Logout</span>
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-            </aside>
-        </>
+        <div className="dashboard-wrapper">
+            <DashboardSidebar role={role} name={name} />
+            <main className="dashboard-main">
+                <h1 className="dashboard-page-title">{pageTitle}</h1>
+                <Outlet />
+            </main>
+        </div>
     );
 };
 
-export default DashboardSidebar;
+export default DashboardLayout;
