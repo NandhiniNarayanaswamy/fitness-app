@@ -86,7 +86,7 @@ const Home = () => {
                                 />
                                 <h3>{trainer.name}</h3>
                                 <p>{trainer.specialization}</p>
-                                <button onClick={() => navigate(`/user/trainer/${trainer._id}`)}>Learn More</button>
+                                <button onClick={() => navigate(`/user/trainers/${trainer._id}`)}>Learn More</button>
                             </div>
                         ))}
                     </div>
