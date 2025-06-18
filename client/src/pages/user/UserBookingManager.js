@@ -93,21 +93,6 @@ const UserBookingManager = () => {
         }
     };
 
-    const isPastSession = (date, timeSlot, duration) => {
-        const now = new Date();
-        const sessionDate = new Date(date);
-
-        if (!timeSlot || !date || !duration) return false;
-
-        const [startHour, startMinute] = timeSlot.split('-')[0].split(':');
-        sessionDate.setHours(+startHour, +startMinute, 0, 0);
-
-        const totalMinutes = parseInt(duration) + 15;
-        const sessionEndWithBuffer = new Date(sessionDate.getTime() + totalMinutes * 60000);
-
-        return now >= sessionEndWithBuffer;
-    };
-
     return (
         <div className="user-booking-manager">
             <h2>Your Bookings</h2>
@@ -125,15 +110,11 @@ const UserBookingManager = () => {
                             <p><strong>Status:</strong> {b.status}</p>
 
                             <div className="booking-buttons">
-                                {b.status === 'completed' && (
-                                    <>
-                                        {!b.feedback && isPastSession(schedule?.date, schedule?.timeSlot, schedule?.duration) && (
-                                            <button onClick={() => setShowFeedback(b)}>Give Feedback</button>
-                                        )}
-                                        <button onClick={() => handleRescheduleClick(b)}>Reschedule</button>
-                                        <button onClick={() => handleCancel(b._id)}>Cancel</button>
-                                    </>
+                                {!b.feedback && (
+                                    <button onClick={() => setShowFeedback(b)}>Give Feedback</button>
                                 )}
+                                <button onClick={() => handleRescheduleClick(b)}>Reschedule</button>
+                                <button onClick={() => handleCancel(b._id)}>Cancel</button>
                             </div>
                         </div>
                     );
